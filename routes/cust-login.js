@@ -5,16 +5,13 @@ const datb = require('../database/database');
 
 
 router.get('/cust_login', (req,res)=>{
-// let email =( {email:req.body.email})
+ let email =( {email:req.body.email})
 
-  datb.query('SELECT * from tblcust where email = ?', [email],function(error,results,fields){
+  datb.query('SELECT * from customer where email ?',[email] ,function(error,results,fields){
  
     if(error){
-       res.send({"message":
-         results
+       res.send({"message": results
        })
-    
-
     }
     else{
         if(results){
@@ -33,8 +30,6 @@ router.get('/cust_login', (req,res)=>{
     }
   })
 })
-
-   
 
 
 module.exports = router ;

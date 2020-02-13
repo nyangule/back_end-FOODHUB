@@ -7,7 +7,7 @@
  router.post ('/cust_register',(req,res)=>{
   
    
-    let customer={
+    let cust={
       name:req.body.name,
       surname:req.body.surname,
       email:req.body.email,
@@ -17,7 +17,7 @@
       
     }
      //let  insertQuery = ('INSERT INTO tblcust (name,surname,email,password,cell_phone,address) VALUES ?')
-    datb.query('INSERT INTO tblcust set ?',[customer], function (error, results, fields) {
+    datb.query('INSERT INTO customer set ?',[cust], function (error, results, fields) {
   module.exports =router;
   if (error) 
     {

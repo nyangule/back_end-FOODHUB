@@ -7,33 +7,34 @@
  router.post ('/restu_register',(req,res)=>{
   
    
-    let resturant={
-      vend_id:req.body.vend_id,
+    let restaurant={
+      restaurant_id:req.body.restaurant_id,
       name:req.body.name,
       email:req.body.email,
-      password:req.body.password,
       cell_phone:req.body.cell_phone,
       address:req.body.address,
-      tax_num:req.body.tax_num,
       
     }
-    datb.query('INSERT INTO tblvendor SET ?',resturant, function (error, results, fields) {
+
+    datb.query('INSERT INTO restuarant_admin SET ?',[restaurant], function (error, results, fields) {
+      module.exports =router;
+
     if (error) 
     {
       console.log("error ocurred",error);
-     res.send({
+      res.send({
        "code":400,
         "failed":"error ocurred"
       })
 
     }
-    else
+      else
     {
-      console.log('The solution is: ', results);
-      res.send({
-       "code":200,
-       "success":"user registered sucessfully"
-          });
+          console.log('The solution is: ', results);
+          res.send({
+            "code":200,
+            "success":"user registered sucessfully"
+              });
     }
   
     });
