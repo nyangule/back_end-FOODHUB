@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
  
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 2000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });

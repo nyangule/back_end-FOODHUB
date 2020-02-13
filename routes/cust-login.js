@@ -5,29 +5,18 @@ const datb = require('../database/database');
 
 
 router.get('/cust_login', (req,res)=>{
- let email =( {email:req.body.email})
+ let email_address =(req.body.email_address)
 
-  datb.query('SELECT * from customer where email ?',[email] ,function(error,results,fields){
+  datb.query('SELECT * FROM customer WHERE email_address = ?',[email_address] ,function(error,results,fields){
  
-    if(error){
-       res.send({"message": results
-       })
+    if(error)
+    {
+        res.send({"failed":"error occured"})
     }
     else{
-        if(results){
-            if(results)
-            {
-                res.send({
-                   "success":"login successful" 
-                })
-            }
-            else{
-                res.send({
-                    "success":"Email and passord do not match"
-                })
-            }
+               return res.send({data:results})
         }
-    }
+    
   })
 })
 

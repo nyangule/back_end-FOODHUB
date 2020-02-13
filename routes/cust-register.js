@@ -3,41 +3,28 @@
  const mysql = require('mysql');
  const datb = require('../database/database');
 
-
  router.post ('/cust_register',(req,res)=>{
-  
-   
+
     let cust={
+      customer_ID:req.body.customer_ID,
       name:req.body.name,
       surname:req.body.surname,
-      email:req.body.email,
-      password:req.body.password,
-      cell_phone:req.body.cell_phone,
-      address:req.body.address
-      
+      address:req.body.address,
+      email_address:req.body.email_address,
+      cell_no:req.body.cell_no,
+      password:req.body.password
     }
-     //let  insertQuery = ('INSERT INTO tblcust (name,surname,email,password,cell_phone,address) VALUES ?')
-    datb.query('INSERT INTO customer set ?',[cust], function (error, results, fields) {
-  module.exports =router;
+    
+  datb.query('INSERT INTO customer set ?',[cust], function (error, results, fields) {
   if (error) 
     {
-      console.log("error ocurred",error);
-      res.send({
-        "code":400,
-        "failed":"error ocurred"
-      })
-
+      res.send({"failed":"error occurred"})
     }
     else
     {
-      console.log('The solution is: ', results);
-      res.send({
-        "code":200,
-        "success":"user registered sucessfully"
-          });
+      res.send({"success":"user registered successfully!"});
     }
-  
-    });
   });
+});
  
   module.exports =router;

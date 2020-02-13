@@ -3,38 +3,27 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 
-router.get('/restu_update', (req,res)=>{
+router.put('/restu_update', (req,res)=>{
     let restuarant ={ 
-        restaurant_id:req.body.restaurant_id,
-        name:req.body.name,
-        email:req.body.email,
-        cell_phone:req.body.cell_phone,
-        address:req.body.address
+      restuarant_id:req.body.restuarant_id,
+      system_id:req.body.system_id,
+      restuarant_name:req.body.restuarant_name,
+      address:req.body.address,
+      password:req.body.password,
+      email:req.body.email
           
-       }
-       
-    datb.query('UPDATE restuarant_admin SET ? WHERE ?',[restuarant]),function (error, results, fields)
+    }
+    let email = (req.body.email)  
+    datb.query('UPDATE restuarant_admin SET ? WHERE email = "'+email+'"',[restuarant],function (error, results, fields)
     {
-        module.exports =router;
-        if (error) 
-          {
-            console.log("error ocurred",error);
-            res.send({
-              "code":400,
-              "failed":"error ocurred"
-            })
+        if (error) throw error 
+        else{
+          datb.query('select * from restuarant_admin where email = "'+email+'"',[restuarant],function (error, results, fields){
+              return res.send({results})
+          })
       
           }
-          else
-          {
-            console.log('The solution is: ', results);
-            res.send({
-              "code":200,
-              "success":"user registered sucessfully"
-                });
-          }
-
-        }
+    })
 
 })
 
