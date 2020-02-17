@@ -4,6 +4,7 @@ const app = express();
 var cors = require('cors')
 const mysqlConn= require('./database/database');
 const bodyParser = require('body-parser');
+const multer = require('multer')
 
 app.use(bodyParser.json());
 app.use(cors())
@@ -23,10 +24,11 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/restu-register'));
  app.use('/', require('./routes/update-customers'));
  app.use('/', require('./routes/update-restu'));
- 
+ app.use('/', require('./routes/delete_customer'));
+ app.use('/', require('./routes/delete-restu'));
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 2000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
-});
+}); 

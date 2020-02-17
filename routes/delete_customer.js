@@ -6,14 +6,14 @@ const datb = require('../database/database');
 router.delete('/cust_delete',function(req, res){
    
 let connection = mysql.createConnection(datb);
-//let email = ({email_address:req.body.email_address});
-let sql = 'DELETE FROM customer where email_address = ?';
+let email = ({email_address:req.body.email_address});
+//let sql = 'DELETE FROM customer where email_address = "'+email_address+'"'
    
-   connection.query(sql, req.query.email_address, function(error, results, fields){
+   connection.query('DELETE FROM customer where email_address = "'+email+'"', [email], function(error, results, fields){
        if(error) throw error;
        else
        {
-           return res.send({'message':results})
+           return res.send({'records has been deleted!!':results})
        }
    }); 
 })
