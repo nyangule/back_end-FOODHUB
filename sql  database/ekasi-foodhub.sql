@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2020 at 01:04 PM
+-- Generation Time: Feb 18, 2020 at 03:38 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -66,6 +66,28 @@ INSERT INTO `cash` (`id`, `payment_date`, `payment_amount`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `category_id` int(255) NOT NULL,
+  `Breakfast` text NOT NULL,
+  `lunch` varchar(255) NOT NULL,
+  `dinner` varchar(255) NOT NULL,
+  `dessert` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `Breakfast`, `lunch`, `dinner`, `dessert`) VALUES
+(98, 'eggs and bacon', 'pap and vlies', 'greek salad ', 'cake'),
+(987, 'eggs and bacon', 'pap and vlies', 'greek salad ', 'cake');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer`
 --
 
@@ -76,16 +98,18 @@ CREATE TABLE `customer` (
   `address` text NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `cell_no` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `streetname` varchar(255) NOT NULL,
+  `house_number` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_ID`, `name`, `surname`, `address`, `email_address`, `cell_no`, `password`) VALUES
-(147258369, 'amanda', 'thambo', '136 Soshanguve', 'amanda@gmail.com', '082360360', 'andazi1234'),
-(963852741, 'athandwa', 'zeni', '1490 Soshanguve', 'tutu2@yahoo.com', '072360360', 'idont9876');
+INSERT INTO `customer` (`customer_ID`, `name`, `surname`, `address`, `email_address`, `cell_no`, `password`, `streetname`, `house_number`) VALUES
+(147258369, 'amanda', 'thambo', '136 Soshanguve', 'amanda@gmail.com', '082360360', 'andazi1234', '', ''),
+(963852741, 'athandwa', 'zeni', '1490 Soshanguve', 'tutu2@yahoo.com', '072360360', 'idont9876', '', '');
 
 -- --------------------------------------------------------
 
@@ -153,6 +177,26 @@ INSERT INTO `payment` (`payment_id`, `order_number`, `payment_method`, `payment_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `product_id` int(255) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_price` int(11) NOT NULL,
+  `product_description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_description`) VALUES
+(1, 'fried fish', 22, 'kentucky');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `restuarant_admin`
 --
 
@@ -161,16 +205,17 @@ CREATE TABLE `restuarant_admin` (
   `system_id` int(255) NOT NULL,
   `restuarant_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `restuarant_admin`
 --
 
-INSERT INTO `restuarant_admin` (`restuarant_id`, `system_id`, `restuarant_name`, `address`, `password`) VALUES
-(123456789, 987654321, 'kentucky', 'shop 19 Soshanguve', 'admin123'),
-(963852741, 147258369, 'chicken now', 'shop 3 soshanguve', 'admin1234');
+INSERT INTO `restuarant_admin` (`restuarant_id`, `system_id`, `restuarant_name`, `address`, `password`, `email`) VALUES
+(123456789, 987654321, 'kentucky', 'shop 19 Soshanguve', 'admin123', 'rest@gmail.com'),
+(963852741, 147258369, 'chicken now', 'shop 3 soshanguve', 'admin1234', 'resst@yahoo.com\r\n');
 
 -- --------------------------------------------------------
 
@@ -182,16 +227,17 @@ CREATE TABLE `system_admin` (
   `system_Id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `system_name` text NOT NULL,
-  `password` int(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `system_admin`
 --
 
-INSERT INTO `system_admin` (`system_Id`, `restaurant_id`, `system_name`, `password`) VALUES
-(147258369, 963852741, 'ekasi foods', 0),
-(987654321, 147258369, 'ekasi foods', 0);
+INSERT INTO `system_admin` (`system_Id`, `restaurant_id`, `system_name`, `password`, `email`) VALUES
+(147258369, 963852741, 'ekasi foods', 'syst123', 'admin@yahoo.com'),
+(987654321, 147258369, 'ekasi foods', 'admin234', 'syst@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -210,6 +256,12 @@ ALTER TABLE `cash`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`);
+
+--
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
@@ -226,6 +278,12 @@ ALTER TABLE `driver`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`order_number`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`product_id`);
 
 --
 -- Indexes for table `restuarant_admin`

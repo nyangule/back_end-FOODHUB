@@ -7,7 +7,7 @@ const datb = require('../database/database');
 router.get('/cust_login', (req,res)=>{
  let email_address =(req.body.email_address)
 
-  datb.query('SELECT * FROM customer WHERE email_address = ?',[email_address] ,function(error,results,fields){
+  datb.query('SELECT * FROM customer',function(error,results,fields){
  
     if(error)
     {
