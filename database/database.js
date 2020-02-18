@@ -4,10 +4,10 @@ const express = require('express');
 
 const mysqlConn =mysql.createConnection({
 
-  host:'localhost',
-  user:'root',
-  password:'',
-  database:'foodhub'
+      host:'localhost',
+      user:'root',
+      password:'',
+      database:'foodhub'
 
 });
 
