@@ -18,14 +18,11 @@ app.use(function (req, res, next) {
   });
 // api routes
 
- app.use('/', require('./routes/cust-login'));
- app.use('/', require('./routes/cust-register'));
- app.use('/', require('./routes/restu-login'));
- app.use('/', require('./routes/restu-register'));
- app.use('/', require('./routes/update-customers'));
- app.use('/', require('./routes/update-restu'));
- app.use('/', require('./routes/delete_customer'));
- app.use('/', require('./routes/delete-restu'));
+ app.use('/', require('./routes/login.js'));
+ app.use('/', require('./routes/registration'));
+ app.use('/', require('./routes/admin'));
+ app.use('/', require('./routes/customer'));
+ app.use('/', require('./routes/restuarant'));
  app.use('/', require('./routes/search'));
 
 

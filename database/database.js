@@ -13,9 +13,9 @@ const mysqlConn =mysql.createConnection({
 
 mysqlConn.connect((err)  =>{
 if(!err)
-console.log('database connection succeed');
+console.log('database connection succeed!');
 else
-console.log('database connection failed');
+console.log('database connection failed!');
 });
 
 module.exports =mysqlConn;

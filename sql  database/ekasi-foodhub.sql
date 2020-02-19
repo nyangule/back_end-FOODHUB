@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2020 at 03:38 PM
+-- Generation Time: Feb 19, 2020 at 03:26 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -25,43 +25,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `card`
+-- Table structure for table `carts`
 --
 
-CREATE TABLE `card` (
-  `card_number` int(30) NOT NULL,
-  `date` date NOT NULL,
-  `amount` double NOT NULL
+CREATE TABLE `carts` (
+  `order_id` int(11) NOT NULL,
+  `name` varchar(55) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `qty` int(255) DEFAULT NULL,
+  `totalAmt` double GENERATED ALWAYS AS (`price` * `qty`) VIRTUAL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `card`
---
-
-INSERT INTO `card` (`card_number`, `date`, `amount`) VALUES
-(14725836, '2020-02-12', 70),
-(45454545, '2020-02-12', 80),
-(60606060, '2020-02-12', 45);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cash`
---
-
-CREATE TABLE `cash` (
-  `id` int(11) NOT NULL,
-  `payment_date` date NOT NULL,
-  `payment_amount` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cash`
---
-
-INSERT INTO `cash` (`id`, `payment_date`, `payment_amount`) VALUES
-(969696, '2020-02-13', 65),
-(70707070, '2020-02-11', 80);
 
 -- --------------------------------------------------------
 
@@ -108,49 +81,23 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_ID`, `name`, `surname`, `address`, `email_address`, `cell_no`, `password`, `streetname`, `house_number`) VALUES
-(147258369, 'amanda', 'thambo', '136 Soshanguve', 'amanda@gmail.com', '082360360', 'andazi1234', '', ''),
-(963852741, 'athandwa', 'zeni', '1490 Soshanguve', 'tutu2@yahoo.com', '072360360', 'idont9876', '', '');
+(0, '', '', 'sosha south monate', 'mgl@gmail.com', '', '458', '', ''),
+(963852741, 'athandwa', 'zeni', '1490 Soshanguve', 'tutu2@yahoo.com', '072360360', 'idont9876', '', ''),
+(963852742, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', '', ''),
+(963852743, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', '', ''),
+(963852744, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `driver`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `driver` (
-  `driver_id` int(255) NOT NULL,
-  `restaurant_id` int(255) NOT NULL,
-  `cell_no` varchar(255) NOT NULL,
-  `driver_name` varchar(255) NOT NULL
+CREATE TABLE `orders` (
+  `order_id` int(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `totalAmount` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `driver`
---
-
-INSERT INTO `driver` (`driver_id`, `restaurant_id`, `cell_no`, `driver_name`) VALUES
-(123456789, 654321987, '065360360', 'Zuma'),
-(789456123, 753421594, '079360360', 'Themba');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order`
---
-
-CREATE TABLE `order` (
-  `order_number` int(11) NOT NULL,
-  `qauntity` int(255) NOT NULL,
-  `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `order`
---
-
-INSERT INTO `order` (`order_number`, `qauntity`, `price`) VALUES
-(543216, 1, 45),
-(741852, 3, 147);
 
 -- --------------------------------------------------------
 
@@ -159,20 +106,12 @@ INSERT INTO `order` (`order_number`, `qauntity`, `price`) VALUES
 --
 
 CREATE TABLE `payment` (
-  `payment_id` int(30) NOT NULL,
-  `order_number` int(11) NOT NULL,
-  `payment_method` varchar(255) NOT NULL,
-  `payment_date` date NOT NULL,
-  `payment_amount` double NOT NULL
+  `payID` int(11) NOT NULL,
+  `orderNo` int(255) NOT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `amount` double NOT NULL,
+  `payment_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`payment_id`, `order_number`, `payment_method`, `payment_date`, `payment_amount`) VALUES
-(147258369, 98765, 'cash', '2020-02-11', 65),
-(987654321, 5632147, 'card', '2020-02-10', 80);
 
 -- --------------------------------------------------------
 
@@ -202,20 +141,20 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_
 
 CREATE TABLE `restuarant_admin` (
   `restuarant_id` int(255) NOT NULL,
-  `system_id` int(255) NOT NULL,
   `restuarant_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `restuarant_admin`
 --
 
-INSERT INTO `restuarant_admin` (`restuarant_id`, `system_id`, `restuarant_name`, `address`, `password`, `email`) VALUES
-(123456789, 987654321, 'kentucky', 'shop 19 Soshanguve', 'admin123', 'rest@gmail.com'),
-(963852741, 147258369, 'chicken now', 'shop 3 soshanguve', 'admin1234', 'resst@yahoo.com\r\n');
+INSERT INTO `restuarant_admin` (`restuarant_id`, `restuarant_name`, `address`, `password`, `email_address`) VALUES
+(123456789, 'kentucky', 'shop 19 Soshanguve', 'admin123', 'rest@gmail.com'),
+(963852741, 'chicken now', 'shop 3 soshanguve', 'admin1234', 'resst@yahoo.com\r\n'),
+(963852742, 'mogodu', 'sosha south monate', '458', 'mgl@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -225,35 +164,29 @@ INSERT INTO `restuarant_admin` (`restuarant_id`, `system_id`, `restuarant_name`,
 
 CREATE TABLE `system_admin` (
   `system_Id` int(11) NOT NULL,
+  `customer_ID` int(255) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
-  `system_name` text NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `system_admin`
 --
 
-INSERT INTO `system_admin` (`system_Id`, `restaurant_id`, `system_name`, `password`, `email`) VALUES
-(147258369, 963852741, 'ekasi foods', 'syst123', 'admin@yahoo.com'),
-(987654321, 147258369, 'ekasi foods', 'admin234', 'syst@gmail.com');
+INSERT INTO `system_admin` (`system_Id`, `customer_ID`, `restaurant_id`, `password`, `email_address`) VALUES
+(147258369, 0, 963852741, 'syst123', 'admin@yahoo.com'),
+(987654321, 0, 147258369, 'admin234', 'syst@gmail.com');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `card`
+-- Indexes for table `carts`
 --
-ALTER TABLE `card`
-  ADD PRIMARY KEY (`card_number`);
-
---
--- Indexes for table `cash`
---
-ALTER TABLE `cash`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `categories`
@@ -268,16 +201,16 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_ID`);
 
 --
--- Indexes for table `driver`
+-- Indexes for table `orders`
 --
-ALTER TABLE `driver`
-  ADD PRIMARY KEY (`driver_id`);
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
 
 --
--- Indexes for table `order`
+-- Indexes for table `payment`
 --
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_number`);
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payID`);
 
 --
 -- Indexes for table `products`
@@ -302,40 +235,34 @@ ALTER TABLE `system_admin`
 --
 
 --
--- AUTO_INCREMENT for table `card`
+-- AUTO_INCREMENT for table `carts`
 --
-ALTER TABLE `card`
-  MODIFY `card_number` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147258370;
-
---
--- AUTO_INCREMENT for table `cash`
---
-ALTER TABLE `cash`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70707071;
+ALTER TABLE `carts`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852742;
+  MODIFY `customer_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852745;
 
 --
--- AUTO_INCREMENT for table `driver`
+-- AUTO_INCREMENT for table `orders`
 --
-ALTER TABLE `driver`
-  MODIFY `driver_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=789456124;
+ALTER TABLE `orders`
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT for table `payment`
 --
-ALTER TABLE `order`
-  MODIFY `order_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=741853;
+ALTER TABLE `payment`
+  MODIFY `payID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `restuarant_admin`
 --
 ALTER TABLE `restuarant_admin`
-  MODIFY `restuarant_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852742;
+  MODIFY `restuarant_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852743;
 
 --
 -- AUTO_INCREMENT for table `system_admin`
