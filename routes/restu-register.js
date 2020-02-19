@@ -6,7 +6,7 @@
 
  router.post ('/restu_register',(req,res)=>{
   
-   
+
     let restaurant={
       restuarant_id:req.body.restuarant_id,
       system_id:req.body.system_id,
@@ -16,28 +16,19 @@
       email:req.body.email
     }
 
-    datb.query('INSERT INTO restuarant_admin SET ?',[restaurant], function (error, results, fields) {
-      module.exports = router;
-
-      if (error) 
-        {
-          console.log("error occurred",error);
-            res.send({
-            "code":400,
-            "failed":"error occurred"
-        })
+    datb.query('SELECT * FROM customer where email = ?', cust.email, (error, results)=>{
+   if(results[0]){
+    res.send({'message':'User already exits'});
+  }else{
+    datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{
+      if(error){
+        res.send({'message':'Something went wrong!'});
+      }else{
+        res.send({'message':'User successfully Registered!'});
       }
-      else
-        {
-          console.log('The solution is: ', results);
-          res.send({
-            "code":200,
-            "success":"user registered sucessfully"
-            });
-        }
-  
-    });
+    })
+  }
+}) 
   });
-
 
 module.exports = router ;

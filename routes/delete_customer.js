@@ -9,7 +9,7 @@ let connection = mysql.createConnection(datb);
 let email = ({email_address:req.body.email_address});
 //let sql = 'DELETE FROM customer where email_address = "'+email_address+'"'
    
-   connection.query('DELETE FROM customer where email_address = "'+email+'"', [email], function(error, results, fields){
+   connection.query('DELETE FROM customer where email = "'+email+'"', [email], function(error, results, fields){
        if(error) throw error;
        else
        {

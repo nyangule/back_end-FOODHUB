@@ -1,24 +1,29 @@
 const express = require('express');
-const router = express.Router();
 const mysql = require('mysql');
+const router = express.Router();
 const datb = require('../database/database');
 
+/* GET users listing. */
+router.get('/cust_login', function(req, res) {
 
-router.get('/cust_login', (req,res)=>{
- let email_address =(req.body.email_address)
+   var email = req.body.email_address;
+   var password = req.body.password;
 
-  datb.query('SELECT * FROM customer WHERE email_address = ?',[email_address] ,function(error,results,fields){
- 
-    if(error)
-    {
-        res.send({"failed":"error occured"})
-    }
-    else{
-               return res.send({data:results})
-        }
-    
-  })
-})
+   datb.query('select * from customer where email_address = ?',[email],(error,result)=>{
+       if(error){
+           res.send({"message":"error ocurred"});
+       }else{
+            if(result[0]){
+               if(result[0].password == password){
+                   res.send({"message":"login sucessfull"});
+               } else{
+                   res.send({"message":"Email and password does not match"});
+               }  
+           }else{
+               res.send({"message":"Email does not exits"});
+           }
+       }
+   }); 
+});
 
-
-module.exports = router ;
+module.exports = router;
