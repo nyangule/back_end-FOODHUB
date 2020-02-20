@@ -21,6 +21,7 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/cust-register'));
  app.use('/', require('./routes/restu-login'));
  app.use('/', require('./routes/restu-register'));
+ app.use('/', require('./routes/addOrder'))
  
 
 // start server
