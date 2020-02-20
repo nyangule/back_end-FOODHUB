@@ -56,7 +56,7 @@ router.post('/add', function (req, res) {
     })
 })
 
-//delect an item from cart
+//delete an item from cart
 router.delete('/carts/:id', (req,res) => {
     mysqlConn.query('DELETE FROM carts WHERE order_id = ?',[req.params.id], (err,results,fields)=>{
         if(!err){
