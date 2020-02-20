@@ -12,7 +12,7 @@ router.post ('/new_products',(req,res)=>{
     product_price:req.body.address,
     product_description:req.body.product_description
   }
-  let   product_id = req.body.product_id
+  let product_id = req.body.product_id
   datb.query('SELECT * FROM products where product_id = ?', product.product_id, (error, results)=>{
     if(results[0]){
       res.send({'message':'product already exits'});

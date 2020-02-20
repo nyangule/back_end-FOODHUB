@@ -15,7 +15,7 @@ router.get('/cust_login', function(req, res) {
         }else{
              if(result[0]){
                 if(result[0].password == password){
-                    res.send({"login sucessfull":result});
+                    res.send({"login successfully":result});
                     
                 } else{
                     res.send({"message":"Email and password does not match"});
@@ -39,7 +39,7 @@ router.get('/cust_login', function(req, res) {
         } else{
              if(result[0]){
                 if(result[0].password == password){
-                    res.send({"login sucessfull":result});
+                    res.send({"login successfully":result});
                 } else{
                     res.send({"message":"Email and password does not match"});
                 }  
