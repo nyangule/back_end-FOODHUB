@@ -4,19 +4,21 @@ const express = require('express');
  const datb = require('../database/database');
 
 router.post('/b', (req, res) => {
-    let prod = ({
-        product_id: req.body.order_id,
+    let prod = {
         product_name: req.body.product_name,
-        product_price: req.body.product_price
+        product_price: req.body.product_price,
+        product_description: req.body.product_description
 
-
-    })
-    datb.query('INSERT INTO products SET  ?', [prod], function (error, results, fields) {
-        if (error) {
-            res.send({ message: 'there are some error with query' })
-        } else
-            res.send({ message: 'inserted' })
-    })
+    }
+    var sql = "INSERT INTO products SET ?";
+             datb.query(sql, [prod], function (err, results) {
+                 if (!err) {
+                     res.send({ message: 'inserted' })
+ 
+                 } else {
+                     res.send({ message: 'there are some error with query' })
+                 }
+             })
 });
 
 module.exports = router;

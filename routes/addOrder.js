@@ -5,7 +5,7 @@
  
  
 
- router.post('/addtocart', function (req, res) {
+ router.put('/addtocart', function (req, res) {
  
      var name = req.body.name
      var qty = req.body.qty
@@ -25,9 +25,9 @@
  
  router.post('/add', function (req, res) {
      let prod = {
-         "name": req.body.name,
-         "price": req.body.price,
-         "qty": req.body.qty
+         name: req.body.name,
+         price: req.body.price,
+         qty: req.body.qty
  
      }
      //var qty = req.body.qty;
