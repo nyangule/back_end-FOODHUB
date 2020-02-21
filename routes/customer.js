@@ -28,23 +28,16 @@ let customer_ID = (req.body.customer_ID)
 
   //done
 
-    router.delete('/cust_delete',function(req, res){
+    router.delete('/customer/:id',function(req, res){
    
-        let connection = mysql.createConnection(datb);
-        let email = ({email_address:req.body.email_address});
-        //let sql = 'DELETE FROM customer where email_address = "'+email_address+'"'
+      datb.query('DELETE FROM customer WHERE customer_ID = ?',[req.params.id], (err,results,fields)=>{
            
-           connection.query('DELETE FROM customer where email_address = "'+email+'"', [email], function(error, results, fields){
-               if(error) throw error;
-               else
-               {
-                   return res.send({'records has been deleted!!':results})
-               }
-           }); 
-        })
-        
-
-
-
+        if(!err){
+          res.send('Deleted successfully.');
+      }else{
+          console.log(err)
+      }
+        }); 
+      })
 
 module.exports = router ;

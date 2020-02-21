@@ -4,8 +4,8 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 
-// vendor / customer/ and himself (superadmin) CRUD
-// products/ menu/ categories orders(vendor)
+// vendor / customer/ and himself (super admin) CRUD
+// products/ menu/ categories orders(vendor/restaurant)
 
 router.get('/admin', (req,res)=>{
 
@@ -13,7 +13,7 @@ router.get('/admin', (req,res)=>{
  
         if(error)
         {
-            res.send({"failed":"error occured"})
+            res.send({"failed":"error occurred"})
         }
         else{
                    return res.send({data:results})
@@ -29,7 +29,7 @@ router.get('/all_customers', (req,res)=>{
  
         if(error)
         {
-            res.send({"failed":"error occured"})
+            res.send({"failed":"error occurred"})
         }
         else{
                    return res.send({data:results})
@@ -45,7 +45,7 @@ router.get('/allrestuarant', (req,res)=>{
  
         if(error)
         {
-            res.send({"failed":"error occured"})
+            res.send({"failed":"error occurred"})
         }
         else{
                    return res.send({data:results})
@@ -79,23 +79,16 @@ router.get('/allrestuarant', (req,res)=>{
 
 })
 
-router.delete('/restu_delete',function(req, res){
+router.delete('/restuarant/:id',function(req, res){
    
-    let connection = mysql.createConnection(datb);
-    let email = ({email_address:req.body.email_address});
-    //let sql = 'DELETE FROM restuarant_admin where email_address = "'+email_address+'"'
-       
-       connection.query('DELETE FROM restuarant_admin where email_address = "'+email+'"', [email], function(error, results, fields){
-           if(error) throw error;
-           else
-           {
-               return res.send({'records has been deleted':results})
-           }
+    datb.query('DELETE FROM restuarant_admin WHERE restuarant_id = ?',[req.params.id], (err,results,fields)=>{
+        if(!err){
+                    res.send('Deleted successfully.');
+                }else{
+                    console.log(err)
+                }
        }); 
     })
-
-
-
 
     router.put('/cust_update', (req,res)=>{
         let cust ={ 
@@ -120,22 +113,16 @@ router.delete('/restu_delete',function(req, res){
           })
         })
     
-        router.delete('/cust_delete',function(req, res){
-       
-            let connection = mysql.createConnection(datb);
-            let email = ({email_address:req.body.email_address});
-            //let sql = 'DELETE FROM customer where email_address = "'+email_address+'"'
-               
-               connection.query('DELETE FROM customer where email_address = "'+email+'"', [email], function(error, results, fields){
-                   if(error) throw error;
-                   else
-                   {
-                       return res.send({'records has been deleted!!':results})
-                   }
-               }); 
-            })
-            
-    
-
+        router.delete('/customer/:id',function(req, res){
+   
+            datb.query('DELETE FROM customer WHERE customer_ID = ?',[req.params.id], (err,results,fields)=>{
+                 
+              if(!err){
+                res.send('Deleted successfully.');
+            }else{
+                console.log(err)
+            }
+            }); 
+        });
 
 module.exports = router;
