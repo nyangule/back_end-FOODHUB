@@ -124,25 +124,24 @@ router.delete('/restuarant/:id',function(req, res){
             }
             }); 
         });
+        router.put('/delete',(req ,res)=>{
 
-        
-       router.put('/delete',(req ,res)=>{
-
-       // let cust_status = req.body.cust_status;
-        let customer_ID = req.body.customer_ID
-        
-
-        datb.query('UPDATE customer  SET cust_status = 0 where customer_ID =  "'+customer_ID+'"',/*[cust_status]*/(err,results,fields)=>
-        {
-            if(!err){
-                res.send('status changed !!')
-            }
-            else{
-                console.log(err)
-            }
-
-        }
-
-       )})
+            // let cust_status = req.body.cust_status;
+             let customer_ID = req.body.customer_ID
+             
+     
+             datb.query('UPDATE customer  SET cust_status = 0 where customer_ID =  "'+customer_ID+'"',/*[cust_status]*/(err,results,fields)=>
+             {
+                 if(!err){
+                     res.send('status changed !!')
+                 }
+                 else{
+                     console.log(err)
+                 }
+     
+             }
+     
+            )})
+     
 
 module.exports = router;
