@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   });
 // api routes
 
- app.use('/', require('./routes/login.js'));
+ app.use('/', require('./routes/login'));
  app.use('/', require('./routes/registration'));
  app.use('/', require('./routes/admin'));
  app.use('/', require('./routes/customer'));
