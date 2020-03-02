@@ -21,4 +21,23 @@ router.post('/enterProduct', (req, res) => {
              })
 });
 
+
+    router.get('/viewProduct', (req,res)=>{
+
+        datb.query('SELECT * FROM  products ',function(error,results,fields){
+     
+            if(error)
+            {
+                res.send({"failed":"error occurred"})
+            }
+            else{
+                       return res.send({data:results})
+                }
+    
+        });
+    });
+    
+    
+
+
 module.exports = router;

@@ -26,6 +26,8 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/search'));
  app.use('/', require('./routes/addOrder'));
  app.use('/', require('./routes/product'));
+ app.use('/', require('./routes/upload_documents'));
+ app.use('/', require('./routes/apply'));
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 3000;
