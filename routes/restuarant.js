@@ -120,22 +120,27 @@ router.put('/product_update', (req,res)=>{
 })
 
 
+
+
 // delete restuarant
 
-router.delete('/restu_delete/:id',function(req, res){
+/*router.delete('/restu_delete/:id',function(req, res){
    
     let connection = mysql.createConnection(datb);
     //let email = ({email_address:req.body.email_address});
     //let sql = 'DELETE FROM restuarant_admin where email_address = "'+email_address+'"'
        
-       connection.query('DELETE * FROM restuarant_admin where restuarant_id =?', [req.params.id], function(error, results, fields){
+      connection.query('DELETE * FROM restuarant_admin where restuarant_id =?', [req.params.id], function(error, results, fields){
            if(error) throw error;
            else
            {
-               return res.send({'records has been deleted':results})
+          return res.send({'records has been deleted':results})
            }
        }); 
-    })
+    })*/
+
+
+
 
 
 module.exports = router ;
