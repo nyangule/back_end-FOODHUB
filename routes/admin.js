@@ -16,7 +16,7 @@ router.get('/admin', (req,res)=>{
             res.send({"failed":"error occurred"})
         }
         else{
-                   return res.send({data:results})
+                   return res.send(results)
             }
 
     });
@@ -145,6 +145,52 @@ router.delete('/restuarant/:id',function(req, res){
 
         }
 
-       )})
+       )});
+
+
+
+       //Accept or decline the Applications
+
+       
+       router.put('/Decline',(req ,res)=>{
+
+        // let cust_status = req.body.cust_status;
+         let restuarant_id = req.body.restuarant_id
+         datb.query('UPDATE restuarant_admin  SET rest_status = 0 where restuarant_id =  "'+restuarant_id+'"',/*[cust_status]*/(err,results,fields)=>
+         {
+            if(err) throw err
+            //res.send('status changed !!')
+        else 
+        {
+           datb.query('select * from restuarant_admin where rest_status = 1',/*[cust]*/function (error, results, fields){
+               return res.send({results})
+
+        })
+    }
+}   
+        )});
+
+        
+        router.put('/Accept',(req ,res)=>{
+
+            // let res_status = req.body.res_status;
+             let restuarant_id = req.body.restuarant_id
+             datb.query('UPDATE restuarant_admin  SET rest_status = 1 where restuarant_id =  "'+restuarant_id+'"',/*[rest_status]*/(err,results,fields)=>
+             {
+                
+            if(err) throw err
+            //res.send('status changed !!')
+        else 
+        {
+           datb.query('select * from restuarant_admin where rest_status = 1 ',/*[cust]*/function (error, results, fields){
+               return res.send({results})
+
+        })
+    }
+   }   
+        )});
+
+
+
 
 module.exports = router;

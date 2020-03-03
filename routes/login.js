@@ -53,6 +53,30 @@ router.get('/cust_login', function(req, res) {
  });
  
 
+
+ router.get('/Admin_login', function(req, res) {
+
+    var email = req.body.email;
+    var password = req.body.password;
+ 
+    datb.query('select * from system_admin where email = ?',[email],(error,result)=>{
+        if(error){
+            res.send({"message":"error ocurred"});
+        } else{
+             if(result[0]){
+                if(result[0].password == password){
+                    res.send({"login successfully":result});
+                } else{
+                    res.send({"message":"Email and password does not match"});
+                }  
+            }else{
+                res.send({"message":"Email does not exits"});
+            }
+        }
+    }); 
+ });
+
+
 module.exports = router;
 
 //done

@@ -36,8 +36,45 @@ router.post('/enterProduct', (req, res) => {
     
         });
     });
-    
-    
 
 
+    router.put('/updateProduct', (req,res)=>{
+        let prod ={ 
+            product_name: req.body.product_name,
+            product_price: req.body.product_price,
+            product_description: req.body.product_description
+           }
+      let product_id = (req.body.product_id)
+           
+        datb.query('UPDATE  products  SET ? where product_id = "'+product_id+'"',[prod],function (error, results, fields)
+        {
+            if (error) throw error;
+            else
+            {
+              datb.query('select * from  products  where product_id = "'+product_id+'"',[prod],function (error, results, fields){
+              return res.send({results})
+          })
+        }       
+          })
+        });
+
+
+      
+        router.put('/deleteProd',(req ,res)=>{
+
+             let product_id = req.body.product_id
+
+             datb.query('UPDATE products   SET status = 0 where product_id =  "'+product_id+'"',(error,results,fields)=>
+             {
+                 if(error) throw error
+                 else{
+                     datb.query('select * from products  where status = 1 ',function(error,results,fields){
+                         return res.send({results})
+                     })
+                 }
+     
+             }
+     
+            )})
+    
 module.exports = router;

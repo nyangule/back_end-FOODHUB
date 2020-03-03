@@ -124,6 +124,8 @@ router.delete('/restuarant/:id',function(req, res){
             }
             }); 
         });
+
+
         router.put('/delete',(req ,res)=>{
 
             // let cust_status = req.body.cust_status;
@@ -132,16 +134,59 @@ router.delete('/restuarant/:id',function(req, res){
      
              datb.query('UPDATE customer  SET cust_status = 0 where customer_ID =  "'+customer_ID+'"',/*[cust_status]*/(err,results,fields)=>
              {
-                 if(!err){
-                     res.send('status changed !!')
+                 if(err) throw err
+                     //res.send('status changed !!')
+                 else 
+                 {
+                    datb.query('select * from customer where cust_status = 0',/*[cust]*/function (error, results, fields){
+                        return res.send({results})
+
                  }
-                 else{
-                     console.log(err)
-                 }
+                    )}       
+    
+            }     
      
-             }
-     
-            )})
+            )});
+
+
+            router.put('/Decline',(req ,res)=>{
+
+                // let cust_status = req.body.cust_status;
+                 let restuarant_id = req.body.restuarant_id
+                 datb.query('UPDATE restuarant_admin  SET rest_status = 0 where restuarant_id =  "'+restuarant_id+'"',/*[cust_status]*/(err,results,fields)=>
+                 {
+                    if(err) throw err
+                    //res.send('status changed !!')
+                else 
+                {
+                   datb.query('select * from restuarant_admin where rest_status = 1',/*[cust]*/function (error, results, fields){
+                       return res.send({results})
+
+                })
+            }
+        }   
+                )});
+
+                
+                router.put('/Accept',(req ,res)=>{
+
+                    // let res_status = req.body.res_status;
+                     let restuarant_id = req.body.restuarant_id
+                     datb.query('UPDATE restuarant_admin  SET rest_status = 1 where restuarant_id =  "'+restuarant_id+'"',/*[rest_status]*/(err,results,fields)=>
+                     {
+                        
+                    if(err) throw err
+                    //res.send('status changed !!')
+                else 
+                {
+                   datb.query('select * from restuarant_admin where rest_status = 1 ',/*[cust]*/function (error, results, fields){
+                       return res.send({results})
+
+                })
+            }
+           }   
+                )});
+
      
 
 module.exports = router;
