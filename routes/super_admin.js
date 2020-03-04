@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
@@ -25,6 +24,7 @@ router.get('/admin', (req,res)=>{
 });
 
 // view all customers
+
 router.get('/all_customers', (req,res)=>{
 
     datb.query('SELECT * FROM customers',function(error,results,fields){
@@ -41,6 +41,7 @@ router.get('/all_customers', (req,res)=>{
 });
 
 // view all  restaurants
+
 router.get('/allrestuarant', (req,res)=>{
 
     datb.query('SELECT * FROM restuarant_admin',function(error,results,fields){
@@ -59,6 +60,7 @@ router.get('/allrestuarant', (req,res)=>{
 //done
 
   // update restaurant  profile 
+
   router.put('/restu_update', (req,res)=>{
     let restuarant ={ 
       restuarant_id:req.body.restuarant_id,
@@ -87,6 +89,7 @@ router.get('/allrestuarant', (req,res)=>{
 
 
     // update customer profile 
+
     router.put('/cust_update', (req,res)=>{
         let cust ={ 
             customer_ID:req.body.customer_ID,

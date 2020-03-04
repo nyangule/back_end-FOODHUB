@@ -30,6 +30,7 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/upload_documents'));
  app.use('/', require('./routes/apply'));
  app.use('/', require('./routes/super_admin'));
+ app.use('/', require('./routes/accept_decline'));
  
 
 // start server

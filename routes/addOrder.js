@@ -62,8 +62,6 @@
          }else{
              console.log(err)
          }
-         
- 
      })
  })
  module.exports = router;
