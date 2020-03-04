@@ -5,6 +5,9 @@ const path  = require('path')
 const datb = require('../database/database');
 const multer = require('multer');
 const DIR = './uploads';
+const fs = require('fs')
+
+//upload documents 
 
 let storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -35,6 +38,16 @@ let upload = multer({storage: storage});
  
       }
 });
+  
+
+
+// get file
+
+router.get('/download',function(req,res,next){
+  filepath =path.join(__dirname,'./uploads')+'/'+req.body.file;
+  res.sendFile(filepath);
+})
+
 
 
   module.exports = router;

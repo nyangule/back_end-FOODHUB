@@ -4,7 +4,9 @@ const app = express();
 var cors = require('cors')
 const mysqlConn= require('./database/database');
 const bodyParser = require('body-parser');
-const multer = require('multer')
+const multer = require('multer');
+const fs = require('fs')
+
 
 app.use(bodyParser.json());
 app.use(cors())
@@ -28,6 +30,7 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/upload_documents'));
  app.use('/', require('./routes/apply'));
  app.use('/', require('./routes/super_admin'));
+ 
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 6000;
