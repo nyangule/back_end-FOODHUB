@@ -3,6 +3,25 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 
+
+
+// view Products
+router.get('/viewProduct', (req,res)=>{
+
+  datb.query('SELECT * FROM  products ',function(error,results,fields){
+
+      if(error)
+      {
+          res.send({"failed":"error occurred"})
+      }
+      else{
+                 return res.send({data:results})
+          }
+
+  });
+});
+
+
 // new products
 router.post ('/new_products',(req,res)=>{
 
@@ -119,6 +138,25 @@ router.put('/product_update', (req,res)=>{
 
 })
 
+  // delete product 
+
+  
+router.put('/deactivateProd',(req ,res)=>{
+
+  let product_id = req.body.product_id
+
+  datb.query('UPDATE products   SET status = 0 where product_id = "'+product_id+'"',(error,results,fields)=>
+  {
+      if(error) throw error
+      else{
+          datb.query('select * from products  where status =  1 ',function(error,results,fields){
+              return res.send({results})
+          })
+      }
+
+  }
+
+ )})
 
 
 
@@ -138,9 +176,6 @@ router.put('/product_update', (req,res)=>{
            }
        }); 
     })*/
-
-
-
 
 
 module.exports = router ;

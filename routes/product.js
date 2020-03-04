@@ -60,21 +60,21 @@ router.post('/enterProduct', (req, res) => {
 
 
       
-        router.put('/deactivateProd',(req ,res)=>{
+        // router.put('/deactivateProd',(req ,res)=>{
 
-             let product_id = req.body.product_id
+        //      let product_id = req.body.product_id
 
-             datb.query('UPDATE products   SET status = 0 where product_id = "'+product_id+'"',(error,results,fields)=>
-             {
-                 if(error) throw error
-                 else{
-                     datb.query('select * from products  where status =  1 ',function(error,results,fields){
-                         return res.send({results})
-                     })
-                 }
+        //      datb.query('UPDATE products   SET status = 0 where product_id = "'+product_id+'"',(error,results,fields)=>
+        //      {
+        //          if(error) throw error
+        //          else{
+        //              datb.query('select * from products  where status =  1 ',function(error,results,fields){
+        //                  return res.send({results})
+        //              })
+        //          }
      
-             }
+        //      }
      
-            )})
+        //     )})
     
 module.exports = router;
