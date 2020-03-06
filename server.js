@@ -6,10 +6,12 @@ const mysqlConn= require('./database/database');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs')
+const flash = require('req-flash')
 
 
 app.use(bodyParser.json());
 app.use(cors())
+app.use(flash());
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');

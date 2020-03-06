@@ -25,7 +25,7 @@ router.get('/admin', (req,res)=>{
 });
 
 // view all customers
-router.get('/all_customers', (req,res)=>{
+router.get('/allCustomers', (req,res)=>{
 
     datb.query('SELECT * FROM customers',function(error,results,fields){
  
@@ -37,8 +37,22 @@ router.get('/all_customers', (req,res)=>{
                    return res.send({data:results})
             }
 
-    });
+    })
 });
+
+//view one customer
+router.get('/aCustomer/:customer_ID', (req, res) => {
+
+    let customer_ID ={customer_ID:req.body.customer_ID}
+ 
+   datb.query('SELECT * FROM customers WHERE  customer_ID = ?',[customer_ID], (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
+
+
+
 
 // view all  restaurants
 router.get('/allrestuarant', (req,res)=>{
@@ -55,6 +69,19 @@ router.get('/allrestuarant', (req,res)=>{
 
     });
 });
+
+router.get('/aRestaurant/:restuarant_id', (req, res) => {
+
+    let restuarant_id ={restuarant_id:req.body.restuarant_id}
+ 
+   datb.query('SELECT * FROM restuarant_admin WHERE  restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
+
+
+
 
 //done
 

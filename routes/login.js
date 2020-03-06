@@ -9,7 +9,7 @@ router.get('/cust_login', function(req, res) {
     var email = req.body.email_address;
     var password = req.body.password;
  
-    datb.query('select * from customer where email_address = ?',[email],(error,result)=>{
+    datb.query('select * from customer where email_address = ? AND password',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         }else{
@@ -32,10 +32,10 @@ router.get('/cust_login', function(req, res) {
 
  router.get('/restu_login', function(req, res) {
 
-    var email = req.body.email;
+    var email = req.body.email_address;
     var password = req.body.password;
  
-    datb.query('select * from restuarant_admin where email = ?',[email],(error,result)=>{
+    datb.query('select * from restuarant_admin where email = ? AND password',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         } else{
@@ -56,10 +56,10 @@ router.get('/cust_login', function(req, res) {
 
  router.get('/Admin_login', function(req, res) {
 
-    var email = req.body.email;
+    var email = req.body.email_address;
     var password = req.body.password;
  
-    datb.query('select * from system_admin where email = ?',[email],(error,result)=>{
+    datb.query('select * from system_admin where email = ? AND password',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         } else{
@@ -76,7 +76,19 @@ router.get('/cust_login', function(req, res) {
     }); 
  });
 
+ //logout
+
+ router.get('/logout', (req, res) => {
+	req.logout();
+	req.flash('success_msg', 'You are logged out');
+	res.redirect('/login');
+  });
+
 
 module.exports = router;
 
 //done
+
+ 
+
+

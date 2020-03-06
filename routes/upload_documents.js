@@ -4,14 +4,14 @@ const mysql = require('mysql');
 const path  = require('path')
 const datb = require('../database/database');
 const multer = require('multer');
-const DIR = './uploads';
+//const DIR = './routes/uploads';
 const fs = require('fs')
 
 //upload documents 
 
 let storage = multer.diskStorage({
     destination: function (req, file, callback) {
-      callback(null, DIR);
+      callback(null, './routes/uploads/');
     },
     filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
