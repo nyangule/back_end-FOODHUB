@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
-const session = require('express-session');
+
 
 router.get('/cust_login', function(req, res) {
 
@@ -14,7 +14,7 @@ router.get('/cust_login', function(req, res) {
         res.send({message:'enter email address'})
     }
  
-    datb.query('select * from customer where email_address = ? AND password',[email,password],(error,result)=>{
+    datb.query('select * from customer where email_address = ?',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         }else{
@@ -40,7 +40,7 @@ router.get('/cust_login', function(req, res) {
     var email = req.body.email_address;
     var password = req.body.password;
  
-    datb.query('select * from restuarant_admin where email = ? AND password',[email,password],(error,result)=>{
+    datb.query('select * from restuarant_admin where email = ?',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         } else{
@@ -64,7 +64,7 @@ router.get('/cust_login', function(req, res) {
     var email = req.body.email_address;
     var password = req.body.password;
  
-    datb.query('select * from system_admin where email = ? AND password',[email,password],(error,result)=>{
+    datb.query('select * from system_admin where email = ?',[email,password],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         } else{
@@ -85,7 +85,6 @@ router.get('/cust_login', function(req, res) {
 
  router.get('/logout', (req, res) => {
 	req.logout();
-	req.flash('success_msg', 'You are logged out');
 	res.redirect('/login');
   });
 

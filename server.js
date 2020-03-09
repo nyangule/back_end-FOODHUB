@@ -5,8 +5,6 @@ var cors = require('cors')
 const mysqlConn= require('./database/database');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const fs = require('fs');
-const flash = require('req-flash');
 const { check } = require('express-validator');
 const session = require('express-session');
 
@@ -14,14 +12,13 @@ const session = require('express-session');
 
 app.use(bodyParser.json());
 app.use(cors())
-app.use(flash());
 //app.use(expressValidator());
 
 
-app.use(session({ cookie: { maxAge: 60000 }, 
-  secret: 'bae',
-  resave: false, 
-  saveUninitialized: false}));
+// app.use(session({ cookie: { maxAge: 60000 }, 
+//   secret: 'bae',
+//   resave: false, 
+//   saveUninitialized: false}));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');

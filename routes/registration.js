@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
-const { check } = require('express-validator/check');
+const { check } = require('express-validator');
 
 router.post ('/cust_register',[
-check('name').isAlpha().isLength({min:3})
-
+check('name').isAlpha(),
+check('surname').isAlpha(),
+check('address').isAlphanumeric(),
+check('email_address').isEmail(),
+check('cell_no').isNumeric().isLength({min:10}),
+check('password').isAlphanumeric().isLength({min:3})
 ],(req,res)=>{
 
   let cust={
@@ -18,7 +22,7 @@ check('name').isAlpha().isLength({min:3})
     password:req.body.password
   }
   datb.query('SELECT * FROM customer where email_address = ?', cust.email_address, (error, results)=>{
-    if(results[0].length){
+    if(results){
       res.send({'message':'User already exits'});
     }else{
       datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{
@@ -43,7 +47,7 @@ router.post ('/restu_register',(req,res)=>{
   }
 
   datb.query('SELECT * FROM restuarant_admin where email_address = ?', restaurant.email_address, (error, results)=>{
- if(results[0]){
+ if(results){
   res.send({'message':'User already exits'});
 }else{
   datb.query('INSERT INTO restuarant_admin set ?', [restaurant], (error, results)=>{
