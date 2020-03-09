@@ -2,8 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
+const { check } = require('express-validator/check');
 
-router.post ('/cust_register',(req,res)=>{
+router.post ('/cust_register',[
+check('name').isAlpha().isLength({min:3})
+
+],(req,res)=>{
 
   let cust={
     name:req.body.name,
@@ -14,7 +18,7 @@ router.post ('/cust_register',(req,res)=>{
     password:req.body.password
   }
   datb.query('SELECT * FROM customer where email_address = ?', cust.email_address, (error, results)=>{
-    if(results[0]){
+    if(results[0].length){
       res.send({'message':'User already exits'});
     }else{
       datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{

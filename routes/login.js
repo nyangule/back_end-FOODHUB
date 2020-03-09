@@ -2,12 +2,17 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
-
+const session = require('express-session');
 
 router.get('/cust_login', function(req, res) {
 
     var email = req.body.email_address;
     var password = req.body.password;
+
+    if(!email_address)
+    {
+        res.send({message:'enter email address'})
+    }
  
     datb.query('select * from customer where email_address = ? AND password',[email,password],(error,result)=>{
         if(error){
