@@ -2,25 +2,45 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
+const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+
+ router.use(session({
+      	secret:'secret',
+	   resave: true,
+	  saveUninitialized: true
+ }));
+
+ router.use(bodyParser.urlencoded({extended : true}));
+ router.use(bodyParser.json());
 
 
 router.get('/cust_login', function(req, res) {
 
-    var email = req.body.email_address;
-    var password = req.body.password;
+    let email = req.body.email_address;
+    let password = req.body.password;
 
-    if(!email_address)
+    if(!email)
     {
-        res.send({message:'enter email address'})
+        res.send({message:'enter correct email address'})
     }
  
-    datb.query('select * from customer where email_address = ?',[email,password],(error,result)=>{
+    datb.query('select * from customer where email_address = ?',[email],(error,result)=>{
         if(error){
             res.send({"message":"error ocurred"});
         }else{
              if(result[0]){
                 if(result[0].password == password){
-                    res.send({"login successfully":result});
+                  
+               jwt.sign({email},'secretkey',{expiresIn :'30'},(err,token)=>{
+                response.json({
+                    token,
+                 email:results
+                });
+               })
+
+                   //res.send({"login successfully":result});
                     
                 } else{
                     res.send({"message":"Email and password does not match"});
@@ -46,6 +66,8 @@ router.get('/cust_login', function(req, res) {
         } else{
              if(result[0]){
                 if(result[0].password == password){
+
+        
                     res.send({"login successfully":result});
                 } else{
                     res.send({"message":"Email and password does not match"});

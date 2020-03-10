@@ -2,16 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
-const { check } = require('express-validator');
+var bcrypt = require('bcrypt-nodejs');
 
-router.post ('/cust_register',[
-check('name').isAlpha(),
-check('surname').isAlpha(),
-check('address').isAlphanumeric(),
-check('email_address').isEmail(),
-check('cell_no').isNumeric().isLength({min:10}),
-check('password').isAlphanumeric().isLength({min:3})
-],(req,res)=>{
+router.post ('/cust_register',(req,res)=>{
 
   let cust={
     name:req.body.name,
@@ -19,11 +12,12 @@ check('password').isAlphanumeric().isLength({min:3})
     address:req.body.address,
     email_address:req.body.email_address,
     cell_no:req.body.cell_no,
-    password:req.body.password
+    password:bcrypt.hashSync(req.body.password, null, null)  
   }
+
   datb.query('SELECT * FROM customer where email_address = ?', cust.email_address, (error, results)=>{
-    if(results){
-      res.send({'message':'User already exits'});
+    if(results[0]){
+      res.send({'message':'error'});
     }else{
       datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{
         if(error){
@@ -42,12 +36,12 @@ router.post ('/restu_register',(req,res)=>{
    
     restuarant_name:req.body.restuarant_name,
     address:req.body.address,
-    password:req.body.password,
+    password:bcrypt.hashSync(req.body.password, null, null),
     email_address:req.body.email_address
   }
 
   datb.query('SELECT * FROM restuarant_admin where email_address = ?', restaurant.email_address, (error, results)=>{
- if(results){
+ if(results[0]){
   res.send({'message':'User already exits'});
 }else{
   datb.query('INSERT INTO restuarant_admin set ?', [restaurant], (error, results)=>{
