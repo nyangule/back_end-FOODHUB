@@ -16,7 +16,7 @@ const bodyParser = require('body-parser');
  router.use(bodyParser.json());
 
 
-router.get('/cust_login', function(req, res) {
+router.post('/cust_login', function(req, res) {
 
     let email = req.body.email_address;
     let password = req.body.password;
@@ -36,11 +36,11 @@ router.get('/cust_login', function(req, res) {
                jwt.sign({email},'secretkey',{expiresIn :'30'},(err,token)=>{
                 response.json({
                     token,
-                 email:results
+                 email:result
                 });
                })
 
-                   //res.send({"login successfully":result});
+                   //res.send({"login successfully" :result});
                     
                 } else{
                     res.send({"message":"Email and password does not match"});
@@ -106,7 +106,8 @@ router.get('/cust_login', function(req, res) {
  //logout
 
  router.get('/logout', (req, res) => {
-	req.logout();
+    req.logout();
+    req.flash('message', 'You are logged out');
 	res.redirect('/login');
   });
 
