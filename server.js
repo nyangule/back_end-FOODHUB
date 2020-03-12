@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/restuarant'));
  app.use('/', require('./routes/search'));
  app.use('/', require('./routes/addOrder'));
- app.use('/', require('./routes/product'));
+ app.use('/', require('./routes/menu'));
  app.use('/', require('./routes/upload_documents'));
  app.use('/', require('./routes/apply'));
  app.use('/', require('./routes/super_admin'));
