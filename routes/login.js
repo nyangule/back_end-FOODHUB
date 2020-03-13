@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 
+
  router.use(session({
       	secret:'secret',
 	   resave: true,
@@ -16,98 +17,93 @@ const bodyParser = require('body-parser');
  router.use(bodyParser.json());
 
 
-router.post('/cust_login', function(req, res) {
+router.get('/cust_login', function(req, res) {
 
     let email = req.body.email_address;
     let password = req.body.password;
 
-    if(!email)
+    if(!email || !password)
     {
-        res.send({message:'enter correct email address'})
+        res.send({message:'enter all the fields'})
     }
- 
-    datb.query('select * from customer where email_address = ?',[email],(error,result)=>{
-        if(error){
-            res.send({"message":"error ocurred"});
-        }else{
-             if(result[0]){
-                if(result[0].password == password){
-                  
-               jwt.sign({email},'secretkey',{expiresIn :'30'},(err,token)=>{
-                response.json({
-                    token,
-                 email:result
+   
+        datb.query('select * from customer where email_address = ? AND password =?',[email,password],(error,result)=>{
+            if(error)throw error;
+                
+            
+            else{
+                jwt.sign({email},'secretkey',{expiresIn:'30s'},(err,token)=>{
+                    res.json({
+                        token,
+                        data:result
+                    });
                 });
-               })
-
-                   //res.send({"login successfully" :result});
-                    
-                } else{
-                    res.send({"message":"Email and password does not match"});
-                }  
-            }else{
-                res.send({"message":"Email does not exits"});
             }
-        }
-    }); 
+        }); 
+
+    
  });
  
- 
-
 
  router.get('/restu_login', function(req, res) {
 
-    var email = req.body.email_address;
+    let email = req.body.email_address;
     var password = req.body.password;
- 
-    datb.query('select * from restuarant_admin where email = ?',[email,password],(error,result)=>{
-        if(error){
-            res.send({"message":"error ocurred"});
-        } else{
-             if(result[0]){
-                if(result[0].password == password){
-
-        
-                    res.send({"login successfully":result});
-                } else{
-                    res.send({"message":"Email and password does not match"});
-                }  
-            }else{
-                res.send({"message":"Email does not exits"});
-            }
-        }
+    
+    if(!email || !password)
+    {
+        res.send({message:'enter all the fields'})
+    }
+   
+    datb.query('select * from restuarant_admin where email_address = ? AND password =?',[email,password],(error,results)=>{  
+       if(error)throw error;
+                else{
+                    jwt.sign({email},'secretkey',{expiresIn:'60s'},(err,token)=>{
+                        res.json({
+                            token,
+                            data:results
+                        });
+                    });  
+                }
     }); 
  });
  
 
-
- router.get('/Admin_login', function(req, res) {
+router.get('/admin_login', function(req, res) {
 
     var email = req.body.email_address;
     var password = req.body.password;
- 
-    datb.query('select * from system_admin where email = ?',[email,password],(error,result)=>{
-        if(error){
-            res.send({"message":"error ocurred"});
-        } else{
-             if(result[0]){
-                if(result[0].password == password){
-                    res.send({"login successfully":result});
-                } else{
-                    res.send({"message":"Email and password does not match"});
-                }  
-            }else{
-                res.send({"message":"Email does not exits"});
-            }
-        }
-    }); 
+    
+    if(!email || !password)
+    {
+        res.send({message:'enter all the fields'})
+    }
+   
+    datb.query('select * from system_admin where email_address =? AND password =?',[email,password],(error,results)=>{  
+       if(error)
+       throw error;
+             
+                else
+                {
+                     
+                      jwt.sign({email},'secretkey',{expiresIn:'60s'},(err,token)=>{
+                        res.json({
+                            token,
+                            data:results
+                        });
+                       console.log(results)
+                        
+                    });
+                }
+                })
  });
+
+
 
  //logout
 
  router.get('/logout', (req, res) => {
     req.logout();
-    req.flash('message', 'You are logged out');
 	res.redirect('/login');
   });
 
@@ -117,5 +113,3 @@ module.exports = router;
 //done
 
  
-
-

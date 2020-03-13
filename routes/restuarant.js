@@ -8,7 +8,7 @@ const datb = require('../database/database');
 // view Products
 router.get('/viewProduct', (req,res)=>{
 
-  datb.query('SELECT * FROM  products ',function(error,results,fields){
+  datb.query('SELECT * FROM  menu ',function(error,results,fields){
 
       if(error)
       {
