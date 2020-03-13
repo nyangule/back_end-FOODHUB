@@ -26,16 +26,15 @@ let customer_ID = (req.body.customer_ID)
     })
   })
 
-  //done
 
-    router.delete('/customer/:id',function(req, res){
+router.delete('/customer/:id',function(req, res){
    
-      datb.query('DELETE FROM customer WHERE customer_ID = ?',[req.params.id], (err,results,fields)=>{
+  datb.query('DELETE FROM customer WHERE customer_ID = ?',[req.params.id], (err,results,fields)=>{
            
-        if(!err){
-          res.send('Deleted successfully.');
+      if(!err){
+        res.send('Deleted successfully.');
       }else{
-          console.log(err)
+        console.log(err)
       }
         }); 
       })

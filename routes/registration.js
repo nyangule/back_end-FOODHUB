@@ -30,8 +30,6 @@ router.post ('/cust_register',(req,res)=>{
   })  
 });
 
-// done and working
- 
 router.post ('/restu_register',(req,res)=>{
 
   let restaurant={
@@ -59,4 +57,3 @@ router.post ('/restu_register',(req,res)=>{
 
 
 module.exports = router;
-  //done

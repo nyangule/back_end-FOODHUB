@@ -4,9 +4,7 @@ const mysql = require('mysql');
 const datb = require('../database/database');
 
 
-
-// view Products
-router.get('/viewProduct', (req,res)=>{
+router.get('/viewMenu', (req,res)=>{
 
   datb.query('SELECT * FROM  menu ',function(error,results,fields){
 
@@ -23,29 +21,48 @@ router.get('/viewProduct', (req,res)=>{
 
 
 // new products
-router.post ('/new_products',(req,res)=>{
+// router.post ('/createMenu',(req,res)=>{
 
-  let product={
+//   let items={
     
-    product_name:req.body.product_name,
-    product_price:req.body.address,
-    product_description:req.body.product_description
+//     item_name:req.body.item_name,
+//     item_price:req.body.item_price,
+//     item_description:req.body.item_description
+//   };
+//   let item_id = req.body.item_id
+//   datb.query('SELECT * FROM menu where item_id = ?', items.item_id, (error, results)=>{
+//     if(results){
+//       res.send({'message':'item already exits'});
+//     }else{
+//       datb.query('INSERT INTO menu set ?', [items], (error, results)=>{
+//         if(error){
+//           res.send({results});
+//         }else{
+//             res.send({'message':'item inserted successfully!'});
+//         }
+//       })
+//     }
+//   })  
+// });
+
+router.post('/createMenu', function (req, res) {
+  let items ={
+      item_name:req.body.item_name,
+      item_price:req.body.item_price,
+      item_description:req.body.item_description
+
   }
-  let product_id = req.body.product_id
-  datb.query('SELECT * FROM products where product_id = ?', product.product_id, (error, results)=>{
-    if(results[0]){
-      res.send({'message':'product already exits'});
-    }else{
-      datb.query('INSERT INTO products set ?', [product], (error, results)=>{
-        if(error){
-          res.send({'message':'Something went wrong!'});
-        }else{
-            res.send({'message':'product entered successfully!'});
-        }
-      })
-    }
-  })  
+           datb.query("INSERT INTO menu SET ?", [items], (err, results)=> {
+               if (err) throw err
+                else {
+                   res.send({results})
+               }
+           })
 });
+
+
+
+
 // new category
 router.post ('/new_category',(req,res)=>{
 
@@ -117,26 +134,28 @@ router.put('/categories_update', (req,res)=>{
 
 })
 
-// products update
-router.put('/product_update', (req,res)=>{
-  let product ={ 
-    product_price:req.body.address,
-    product_description:req.body.product_description
-          
-  }
-  let product_id = (req.body.product_id)  
-  datb.query('UPDATE products SET ? WHERE product_id = "'+product_id+'"',[product],function (error, results, fields)
-  {
-      if (error) throw error 
-      else{
-        datb.query('select * from products where product_id = "'+product_id+'"',[product],function (error, results, fields){
-            return res.send({results})
-        })
-    
-        }
-  })
+// products menu
 
-})
+router.put('/updateMenu', (req,res)=>{
+  let items ={ 
+      item_name: req.body.item_name,
+      item_price: req.body.item_price,
+      item_description: req.body.item_description
+     }
+let item_id = (req.body.item_id)
+     
+  datb.query('UPDATE  menu  SET ? where item_id = "'+item_id+'"',[items],function (error, results, fields)
+  {
+      if (error) throw error;
+      else
+      {
+        datb.query('select * from  menu  where item_id = "'+item_id+'"',[items],function (error, results, fields){
+        return res.send({results})
+    })
+  }       
+    })
+  });
+
 
   // delete product 
 
