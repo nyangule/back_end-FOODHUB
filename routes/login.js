@@ -107,11 +107,12 @@ router.get('/cust_login', function(req, res) {
  router.get('/Admin_login', function(req, res) {
 
     let email = req.body.email_address;
-    let password = req.body.password;
+    var password = req.body.password;
  
-    datb.query('select * from system_admin where email = ?',[email,password],(error,result)=>{
+    datb.query('select * from system_admin where email_address = ? AND password ',[email,password],(error,result)=>{
         if(error){
-            res.send({"message":"error ocurred"});
+            throw error;
+           // res.send({"message":"error ocurred"});
         } else{
              if(result[0]){
                 if(result[0].password == password){
