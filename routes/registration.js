@@ -17,7 +17,7 @@ router.post ('/cust_register',(req,res)=>{
 
   datb.query('SELECT * FROM customer where email_address = ?', cust.email_address, (error, results)=>{
     if(results[0]){
-      res.send({'message':'error'});
+      res.send({'message':'user already exist'});
     }else{
       datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{
         if(error){
@@ -29,6 +29,8 @@ router.post ('/cust_register',(req,res)=>{
     }
   })  
 });
+
+// done and working
  
 router.post ('/restu_register',(req,res)=>{
 

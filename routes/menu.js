@@ -3,15 +3,15 @@ const express = require('express');
  const mysql = require('mysql');
  const datb = require('../database/database');
 
-router.post('/enterProduct', (req, res) => {
-    let prod = {
-        product_name: req.body.product_name,
-        product_price: req.body.product_price,
-        product_description: req.body.product_description
+router.post('/createMenu', (req, res) => {
+    let items = {
+        items_name: req.body.items_name,
+        items_price: req.body.items_price,
+        items_description: req.body.items_description
 
     }
-    var sql = "INSERT INTO products SET ?";
-             datb.query(sql, [prod], function (err, results) {
+    var sql = "INSERT INTO menu SET ?";
+             datb.query(sql, [items], function (err, results) {
                  if (!err) {
                      res.send({ message: 'inserted' })
  
@@ -22,9 +22,9 @@ router.post('/enterProduct', (req, res) => {
 });
 
 
-    router.get('/viewProduct', (req,res)=>{
+    router.get('/viewMenu', (req,res)=>{
 
-        datb.query('SELECT * FROM  products ',function(error,results,fields){
+        datb.query('SELECT * FROM  menu ',function(error,results,fields){
      
             if(error)
             {
@@ -38,20 +38,20 @@ router.post('/enterProduct', (req, res) => {
     });
 
 
-    router.put('/updateProduct', (req,res)=>{
-        let prod ={ 
-            product_name: req.body.product_name,
-            product_price: req.body.product_price,
-            product_description: req.body.product_description
+    router.put('/updateMenu', (req,res)=>{
+        let items ={ 
+            item_name: req.body.item_name,
+            item_price: req.body.item_price,
+            item_description: req.body.item_description
            }
-      let product_id = (req.body.product_id)
+      let item_id = (req.body.item_id)
            
-        datb.query('UPDATE  products  SET ? where product_id = "'+product_id+'"',[prod],function (error, results, fields)
+        datb.query('UPDATE  menu  SET ? where item_id = "'+item_id+'"',[items],function (error, results, fields)
         {
             if (error) throw error;
             else
             {
-              datb.query('select * from  products  where product_id = "'+product_id+'"',[prod],function (error, results, fields){
+              datb.query('select * from  menu  where item_id = "'+item_id+'"',[items],function (error, results, fields){
               return res.send({results})
           })
         }       

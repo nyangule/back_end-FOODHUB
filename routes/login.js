@@ -68,10 +68,11 @@ router.get('/cust_login', function(req, res) {
     }); 
  });
  
+ 
 
 router.get('/admin_login', function(req, res) {
 
-    var email = req.body.email_address;
+    let email = req.body.email_address;
     var password = req.body.password;
     
     if(!email || !password)
