@@ -207,9 +207,6 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
         )});
 
 
-
-
-
        //Accept or decline the Applications                             
 
        router.put('/Decline',(req ,res)=>{
@@ -316,6 +313,9 @@ router.get('/ActiveCustomers',(req,res)=>{
           }
         })
       });
+
+
+
 
 
 module.exports = router;
