@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 
+// update customer  profile
 router.put('/cust_update', (req,res)=>{
   let cust ={ 
       name:req.body.name,
@@ -25,6 +26,42 @@ let customer_ID = (req.body.customer_ID)
   }       
     })
   })
+
+
+
+// search by menu
+router.get('/searchMenu',function(req,res){
+ 
+  let items =req.body.item_name
+
+  datb.query('SELECT * from menu where item_name = "'+items+'"',function(error, results, fields) {
+      if(error) throw error;
+      else
+      {    
+          return res.send({"the results are ":results})
+      }
+         
+  }); 
+
+})
+
+// search by rest name
+router.get('/searchShop',function(req,res){
+
+  let restuarant =req.body.restuarant_name
+
+  datb.query('SELECT restuarant_name from restuarant_admin where restuarant_name = "'+restuarant+'"',function(error, results, fields) {
+      if(error) throw error;
+      else
+      {    
+          return res.send({"the results are ":results})
+      }
+       
+  }); 
+
+})
+
+
 
   //done
 

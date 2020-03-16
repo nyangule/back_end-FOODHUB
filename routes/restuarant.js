@@ -5,6 +5,42 @@ const datb = require('../database/database');
 
 
 
+// application for restaurant
+
+router.post ('/application',(req,res)=>{
+
+  let rest={
+      restuarant_id:req.body.restuarant_id,
+      //tax_number:req.body.tax_number,
+      restuarant_name:req.body.restuarant_name,
+      address:req.body.address,
+      password:req.body.password,
+      email_address:req.body.email_address
+
+    }
+   if(!rest)
+   {
+     res.send({'message': 'false'})
+   }
+
+    datb.query('SELECT * FROM restuarant_admin  where email_address = ?', rest.email_address, (error, results)=>{
+   if(results[0]){
+    res.send({'message':'restaurant already exits'});
+  }else{
+    datb.query('INSERT INTO restuarant_admin set ?', [rest], (error, results)=>{
+      if(error){
+        res.send({'message':'Something went wrong!'});
+      }else{
+        res.send({'message':'Application successfully submitted!'});
+      }
+    })
+  }
+  }) 
+  });
+
+
+
+
 // view Products
 router.get('/viewProduct', (req,res)=>{
 
@@ -21,30 +57,23 @@ router.get('/viewProduct', (req,res)=>{
   });
 });
 
+// create new Menu
+router.post('/createMenu', (req, res) => {
+  let items = {
+      items_name:req.body.items_name,
+      items_price:req.body.items_price,
+      items_description:req.body.items_description
 
-// new products
-router.post ('/new_products',(req,res)=>{
-
-  let product={
-    
-    product_name:req.body.product_name,
-    product_price:req.body.address,
-    product_description:req.body.product_description
   }
-  let product_id = req.body.product_id
-  datb.query('SELECT * FROM products where product_id = ?', product.product_id, (error, results)=>{
-    if(results[0]){
-      res.send({'message':'product already exits'});
-    }else{
-      datb.query('INSERT INTO products set ?', [product], (error, results)=>{
-        if(error){
-          res.send({'message':'Something went wrong!'});
-        }else{
-            res.send({'message':'product entered successfully!'});
-        }
-      })
-    }
-  })  
+  var sql = "INSERT INTO menu SET ?";
+           datb.query(sql, [items], function (err, results) {
+               if (!err) {
+                   res.send({ message: 'inserted' })
+
+               } else {
+                   res.send({ message: 'there are some error with query' })
+               }
+           })
 });
 // new category
 router.post ('/new_category',(req,res)=>{
@@ -117,39 +146,44 @@ router.put('/categories_update', (req,res)=>{
 
 })
 
-// products update
-router.put('/product_update', (req,res)=>{
-  let product ={ 
-    product_price:req.body.address,
-    product_description:req.body.product_description
-          
-  }
-  let product_id = (req.body.product_id)  
-  datb.query('UPDATE products SET ? WHERE product_id = "'+product_id+'"',[product],function (error, results, fields)
+// update menu 
+
+
+router.put('/updateMenu', (req,res)=>{
+  let items ={ 
+      item_name: req.body.item_name,
+      item_price: req.body.item_price,
+      item_description: req.body.item_description
+     }
+let item_id = (req.body.item_id)
+     
+  datb.query('UPDATE  menu  SET ? where item_id = "'+item_id+'"',[items],function (error, results, fields)
   {
-      if (error) throw error 
-      else{
-        datb.query('select * from products where product_id = "'+product_id+'"',[product],function (error, results, fields){
-            return res.send({results})
-        })
-    
-        }
-  })
+      if (error) throw error;
+      else
+      {
+        datb.query('select * from  menu  where item_id = "'+item_id+'"',[items],function (error, results, fields){
+        return res.send({results})
+    })
+  }       
+    })
+  });
 
-})
 
-  // delete product 
 
-  
-router.put('/deactivateProd',(req ,res)=>{
+  // delete menu/ deactivating menu
 
-  let product_id = req.body.product_id
 
-  datb.query('UPDATE products   SET status = 0 where product_id = "'+product_id+'"',(error,results,fields)=>
-  {
+
+ router.put('/deactivateMenu',(req ,res)=>{
+
+  let item_id = req.body.item_id
+
+  datb.query('UPDATE menu   SET status = 0 where item_id = "'+item_id+'"',(error,results,fields)=>
+  { 
       if(error) throw error
       else{
-          datb.query('select * from products  where status =  1 ',function(error,results,fields){
+          datb.query('select * from menu  where status =  1 ',function(error,results,fields){
               return res.send({results})
           })
       }
@@ -158,24 +192,37 @@ router.put('/deactivateProd',(req ,res)=>{
 
  )})
 
+    // Reports
 
+    // view total number of orders
+    router.get('/totalOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'total orders':results})
+        }
+      })
+    })
 
-// delete restuarant
+    // view total number of declined orders
+    router.get('/declinedOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders where order_status = 0 ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'number of declined orders :':results})
+        }
+      })
+    })
 
-/*router.delete('/restu_delete/:id',function(req, res){
-   
-    let connection = mysql.createConnection(datb);
-    //let email = ({email_address:req.body.email_address});
-    //let sql = 'DELETE FROM restuarant_admin where email_address = "'+email_address+'"'
-       
-      connection.query('DELETE * FROM restuarant_admin where restuarant_id =?', [req.params.id], function(error, results, fields){
-           if(error) throw error;
-           else
-           {
-          return res.send({'records has been deleted':results})
-           }
-       }); 
-    })*/
+    // view number of declined orders
+    router.get('/AcceptedOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders where order_status = 1 ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'number of Accepted orders :':results})
+        }
+      })
+    })
 
 
 module.exports = router ;

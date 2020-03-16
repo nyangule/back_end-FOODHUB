@@ -12,13 +12,7 @@ const session = require('express-session');
 
 app.use(bodyParser.json());
 app.use(cors())
-//app.use(expressValidator());
 
-
-// app.use(session({ cookie: { maxAge: 60000 }, 
-//   secret: 'bae',
-//   resave: false, 
-//   saveUninitialized: false}));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,11 +27,8 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/registration'));
  app.use('/', require('./routes/customer'));
  app.use('/', require('./routes/restuarant'));
- app.use('/', require('./routes/search'));
  app.use('/', require('./routes/addOrder'));
- app.use('/', require('./routes/menu'));
  app.use('/', require('./routes/upload_documents'));
- app.use('/', require('./routes/apply'));
  app.use('/', require('./routes/super_admin'));
  
 
