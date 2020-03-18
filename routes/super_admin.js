@@ -233,7 +233,7 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
              {
                 
             if(err) throw err
-            //res.send('status changed !!')
+          
         else 
         {
            datb.query('select * from restuarant_admin where rest_status = 1 ',function (error, results, fields){
@@ -313,7 +313,22 @@ router.get('/ActiveCustomers',(req,res)=>{
           }
         })
       });
+ 
+ //view orders for specific restaurant
 
+
+
+ // need to link orders with a specific restaurant
+ //{do not test yet not working}
+router.get('/resOrders/:restuarant_id', (req, res) => {
+
+    let restuarant_id ={restuarant_id:req.body.restuarant_id}
+ 
+   datb.query('SELECT count(order_id) AS orders from restuarant_admin where restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
 
 
 

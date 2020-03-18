@@ -224,6 +224,17 @@ let item_id = (req.body.item_id)
       })
     })
 
+    // view orders from a specific customer
+    router.get('/cusOrders/:customer_ID', (req, res) => {
+
+      let customer_ID ={customer_ID:req.body.customer_ID}
+   
+     datb.query('SELECT count(customer_ID) AS customerOrder from customer where customer_ID = ?',[customer_ID], (error, results,fields) => {
+         if(error) throw error;
+         res.send({results});
+     });
+  });
+
 
 module.exports = router ;
 
