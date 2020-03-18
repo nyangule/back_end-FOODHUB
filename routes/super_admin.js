@@ -324,7 +324,7 @@ router.get('/resOrders/:restuarant_id', (req, res) => {
 
     let restuarant_id ={restuarant_id:req.body.restuarant_id}
  
-   datb.query('SELECT count(order_id) AS orders from restuarant_admin where restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+   datb.query('SELECT count(restuarant_id) AS orders from orders where restuarant_id = ?',[restuarant_id], (error, results,fields) => {
        if(error) throw error;
        res.send({results});
    });
