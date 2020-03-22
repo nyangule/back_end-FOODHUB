@@ -9,7 +9,7 @@ router.put('./updateOrder', (req, res) => {
     
     const order_ID = (body.req.orderID);
 
-    datb.query('UPDATE order SET ? WHERE order_id = "'+order_ID+'"' , [order] ,function(error, results, fields){
+    datb.query('UPDATE orders SET ? WHERE order_id = "'+order_ID+'"' ,function(error, results, fields){
 
         if(error)
         {
@@ -17,7 +17,7 @@ router.put('./updateOrder', (req, res) => {
         }
         else
         {
-            datb.query('SELECT * FROM order WHERE order_id = "'+order_ID+'"' , [order], function (error, result, fields) {
+            datb.query('SELECT * FROM orders WHERE order_id = "'+order_ID+'"', function (error, result, fields) {
                 return res.send({results}) 
             })
         }
@@ -32,7 +32,7 @@ router.put('./updateOrder/:id', (req, res) => {
     
     const order_ID = (body.req.orderID);
 
-    datb.query('UPDATE order SET ? WHERE order_id = "'+order_ID+'"' , [order] ,function(error, results, fields){
+    datb.query('UPDATE orders SET ? WHERE order_id = "'+order_ID+'"',function(error, results, fields){
 
         if(error)
         {
@@ -40,7 +40,7 @@ router.put('./updateOrder/:id', (req, res) => {
         }
         else
         {
-            datb.query('SELECT * FROM order WHERE order_id = "'+order_ID+'"' , [order], function (error, result, fields) {
+            datb.query('SELECT * FROM orders WHERE order_id = "'+order_ID+'"',function (error, result, fields) {
                 return res.send({results}) 
             })
         }
