@@ -99,18 +99,12 @@ router.get('/admin_login', function(req, res) {
                 })
  });
 
-
-
- //logout
-
  router.get('/logout', (req, res) => {
     req.logout();
 	res.redirect('/login');
   });
 
-
 module.exports = router;
 
-//done
 
  

@@ -5,6 +5,7 @@ const datb = require('../database/database');
 
 
 
+
 // application for restaurant
 
 router.post ('/application',(req,res)=>{
@@ -42,7 +43,8 @@ router.post ('/application',(req,res)=>{
 
 
 // view Products
-router.get('/viewProduct', (req,res)=>{
+router.get('/viewMenu', (req,res)=>{
+
 
   datb.query('SELECT * FROM  menu ',function(error,results,fields){
 
@@ -64,6 +66,7 @@ router.post('/createMenu', (req, res) => {
       items_price:req.body.items_price,
       items_description:req.body.items_description
 
+
   }
   var sql = "INSERT INTO menu SET ?";
            datb.query(sql, [items], function (err, results) {
@@ -72,9 +75,51 @@ router.post('/createMenu', (req, res) => {
 
                } else {
                    res.send({ message: 'there are some error with query' })
+=======
+// new products
+// router.post ('/createMenu',(req,res)=>{
+
+//   let items={
+    
+//     item_name:req.body.item_name,
+//     item_price:req.body.item_price,
+//     item_description:req.body.item_description
+//   };
+//   let item_id = req.body.item_id
+//   datb.query('SELECT * FROM menu where item_id = ?', items.item_id, (error, results)=>{
+//     if(results){
+//       res.send({'message':'item already exits'});
+//     }else{
+//       datb.query('INSERT INTO menu set ?', [items], (error, results)=>{
+//         if(error){
+//           res.send({results});
+//         }else{
+//             res.send({'message':'item inserted successfully!'});
+//         }
+//       })
+//     }
+//   })  
+// });
+
+router.post('/createMenu', function (req, res) {
+  let items ={
+      item_name:req.body.item_name,
+      item_price:req.body.item_price,
+      item_description:req.body.item_description
+
+  }
+           datb.query("INSERT INTO menu SET ?", [items], (err, results)=> {
+               if (err) throw err
+                else {
+                   res.send({results})
+
                }
            })
 });
+
+
+
+
 // new category
 router.post ('/new_category',(req,res)=>{
 
@@ -146,8 +191,8 @@ router.put('/categories_update', (req,res)=>{
 
 })
 
-// update menu 
 
+// update menu 
 
 router.put('/updateMenu', (req,res)=>{
   let items ={ 
