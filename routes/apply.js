@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
-   
+const nodemailer = require('nodemailer');   
 
 router.post ('/application',(req,res)=>{
 
@@ -12,7 +12,6 @@ router.post ('/application',(req,res)=>{
           address:req.body.address,
           password:req.body.password,
           email_address:req.body.email_address
-
         }
         if(!rest)
           {
@@ -30,13 +29,32 @@ router.post ('/application',(req,res)=>{
               res.send({'message':'Application successfully submitted!'});
             }
           })
-        /**/ 
+        /**/
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'kasifoodhub@gmail.com',
+            pass: '2020#1food'
+          }
+        });
+        
+        var mailOptions = {
+          from: 'kasifoodhub@gmail.com',
+          to: rest.email_address,
+          subject: 'Ekasi Foodhub',
+          text: 'Your application is been approved!'
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+            
+          }
+        }); 
         }
       }) 
   });
-    
-
-
-
-     
+  
 module.exports = router;

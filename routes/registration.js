@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 var bcrypt = require('bcrypt-nodejs');
-const nodemailer = require('nodemailer');
+
 
 router.post ('/cust_register',(req,res)=>{
 
@@ -35,29 +35,7 @@ router.post ('/cust_register',(req,res)=>{
             res.send({'message':'User successfully Registered!'});
           }
         })
-        var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'kasifoodhub@gmail.com',
-            pass: '2020#012bc'
-          }
-        });
         
-        var mailOptions = {
-          from: 'kasifoodhub@gmail.com',
-          to: cust.email_address,
-          subject: 'Ekasi Foodhub',
-          text: 'You are successfully registered please wait to be approved'
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-            
-          }
-        });
       }
     }) 
   } 

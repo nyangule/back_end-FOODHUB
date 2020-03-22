@@ -38,7 +38,8 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/upload_documents'));
  app.use('/', require('./routes/apply'));
  app.use('/', require('./routes/super_admin'));
- 
+ app.use('/', require('./routes/forgot'));
+ //app.use('/', require('./routes/reset_password'));
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 6000;
