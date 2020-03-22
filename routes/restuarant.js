@@ -4,7 +4,47 @@ const mysql = require('mysql');
 const datb = require('../database/database');
 
 
+
+
+// application for restaurant
+
+router.post ('/application',(req,res)=>{
+
+  let rest={
+      restuarant_id:req.body.restuarant_id,
+      //tax_number:req.body.tax_number,
+      restuarant_name:req.body.restuarant_name,
+      address:req.body.address,
+      password:req.body.password,
+      email_address:req.body.email_address
+
+    }
+   if(!rest)
+   {
+     res.send({'message': 'false'})
+   }
+
+    datb.query('SELECT * FROM restuarant_admin  where email_address = ?', rest.email_address, (error, results)=>{
+   if(results[0]){
+    res.send({'message':'restaurant already exits'});
+  }else{
+    datb.query('INSERT INTO restuarant_admin set ?', [rest], (error, results)=>{
+      if(error){
+        res.send({'message':'Something went wrong!'});
+      }else{
+        res.send({'message':'Application successfully submitted!'});
+      }
+    })
+  }
+  }) 
+  });
+
+
+
+
+// view Products
 router.get('/viewMenu', (req,res)=>{
+
 
   datb.query('SELECT * FROM  menu ',function(error,results,fields){
 
@@ -19,7 +59,23 @@ router.get('/viewMenu', (req,res)=>{
   });
 });
 
+// create new Menu
+router.post('/createMenu', (req, res) => {
+  let items = {
+      items_name:req.body.items_name,
+      items_price:req.body.items_price,
+      items_description:req.body.items_description
 
+
+  }
+  var sql = "INSERT INTO menu SET ?";
+           datb.query(sql, [items], function (err, results) {
+               if (!err) {
+                   res.send({ message: 'inserted' })
+
+               } else {
+                   res.send({ message: 'there are some error with query' })
+=======
 // new products
 // router.post ('/createMenu',(req,res)=>{
 
@@ -56,6 +112,7 @@ router.post('/createMenu', function (req, res) {
                if (err) throw err
                 else {
                    res.send({results})
+
                }
            })
 });
@@ -134,7 +191,8 @@ router.put('/categories_update', (req,res)=>{
 
 })
 
-// products menu
+
+// update menu 
 
 router.put('/updateMenu', (req,res)=>{
   let items ={ 
@@ -157,18 +215,20 @@ let item_id = (req.body.item_id)
   });
 
 
-  // delete product 
 
-  
-router.put('/deactivateProd',(req ,res)=>{
+  // delete menu/ deactivating menu
 
-  let product_id = req.body.product_id
 
-  datb.query('UPDATE products   SET status = 0 where product_id = "'+product_id+'"',(error,results,fields)=>
-  {
+
+ router.put('/deactivateMenu',(req ,res)=>{
+
+  let item_id = req.body.item_id
+
+  datb.query('UPDATE menu   SET status = 0 where item_id = "'+item_id+'"',(error,results,fields)=>
+  { 
       if(error) throw error
       else{
-          datb.query('select * from products  where status =  1 ',function(error,results,fields){
+          datb.query('select * from menu  where status =  1 ',function(error,results,fields){
               return res.send({results})
           })
       }
@@ -177,24 +237,48 @@ router.put('/deactivateProd',(req ,res)=>{
 
  )})
 
+    // Reports
 
+    // view total number of orders
+    router.get('/totalOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'total orders':results})
+        }
+      })
+    })
 
-// delete restuarant
+    // view total number of declined orders
+    router.get('/declinedOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders where order_status = 0 ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'number of declined orders :':results})
+        }
+      })
+    })
 
-/*router.delete('/restu_delete/:id',function(req, res){
+    // view number of declined orders
+    router.get('/AcceptedOrders',(req,res)=>{
+      datb.query('SELECT count(order_id) AS number from orders where order_status = 1 ',(error,results,fields)=>{
+        if(error)throw error
+        else{
+          return res.send({'number of Accepted orders :':results})
+        }
+      })
+    })
+
+    // view orders from a specific customer
+    router.get('/cusOrders/:customer_ID', (req, res) => {
+
+      let customer_ID ={customer_ID:req.body.customer_ID}
    
-    let connection = mysql.createConnection(datb);
-    //let email = ({email_address:req.body.email_address});
-    //let sql = 'DELETE FROM restuarant_admin where email_address = "'+email_address+'"'
-       
-      connection.query('DELETE * FROM restuarant_admin where restuarant_id =?', [req.params.id], function(error, results, fields){
-           if(error) throw error;
-           else
-           {
-          return res.send({'records has been deleted':results})
-           }
-       }); 
-    })*/
+     datb.query('SELECT count(customer_ID) AS customerOrder from customer where customer_ID = ?',[customer_ID], (error, results,fields) => {
+         if(error) throw error;
+         res.send({results});
+     });
+  });
 
 
 module.exports = router ;

@@ -164,19 +164,16 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
         
 
         // deleting customer profile
-       router.put('/deactivate',(req ,res)=>{
+       router.put('/deactivateRest',(req ,res)=>{
 
-       // let cust_status = req.body.cust_status;
-        let customer_ID = req.body.customer_ID
+     
+        let restuarant_id = req.body.restuarant_id
         
-      // select * from customer where cust_status = 1.
-
-
-        datb.query('UPDATE  restuarant_admin  SET cust_status = 0 where customer_ID =  "'+customer_ID+'"',/*[cust_status]*/(error,results,fields)=>
+        datb.query('UPDATE  restuarant_admin SET rest_status = 0 where restuarant_id =  "'+restuarant_id+'"',(error,results,fields)=>
         {
             if(error) throw error
             else{
-                datb.query('select * from  restuarant_admin where cust_status = 1',function(error,results,fields){
+                datb.query('select * from   restuarant_admin where restuarant_id = 1',function(error,results,fields){
                     return res.send({results})
                 })
             }
@@ -188,7 +185,7 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
 
 
        
-       router.put('/deactivate',(req ,res)=>{
+       router.put('/deactivateCust',(req ,res)=>{
 
         // let cust_status = req.body.cust_status;
          let customer_ID = req.body.customer_ID
@@ -210,42 +207,36 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
         )});
 
 
-
-
-
-       //Accept or decline the Applications
+       //Accept or decline the Applications                             
 
        router.put('/Decline',(req ,res)=>{
 
-        // let cust_status = req.body.cust_status;
          let restuarant_id = req.body.restuarant_id
-         datb.query('UPDATE restuarant_admin  SET rest_status = 0 where restuarant_id =  "'+restuarant_id+'"',/*[cust_status]*/(err,results,fields)=>
+         datb.query('UPDATE restuarant_admin  SET rest_status = 0 where restuarant_id =  "'+restuarant_id+'"',(err,results,fields)=>
         {
           if(err) throw err
-            // res.send('status changed !!')
      else 
          {
-          datb.query('select * from restuarant_admin where rest_status = 0',/*[cust]*/function (error, results, fields){
-                              return res.send({results})
+          datb.query('select * from restuarant_admin where rest_status = 0',function (error, results, fields){
+                return res.send({results})
 
        })
      }
    }  
         )});
     
-        
+        // Accept the application
         router.put('/Accept',(req ,res)=>{
 
-            // let res_status = req.body.res_status;
              let restuarant_id = req.body.restuarant_id
-             datb.query('UPDATE restuarant_admin  SET rest_status = 1 where restuarant_id =  "'+restuarant_id+'"',/*[rest_status]*/(err,results,fields)=>
+             datb.query('UPDATE restuarant_admin  SET rest_status = 1 where restuarant_id =  "'+restuarant_id+'"',(err,results,fields)=>
              {
                 
             if(err) throw err
-            //res.send('status changed !!')
+          
         else 
         {
-           datb.query('select * from restuarant_admin where rest_status = 1 ',/*[cust]*/function (error, results, fields){
+           datb.query('select * from restuarant_admin where rest_status = 1 ',function (error, results, fields){
                return res.send({results})
 
         })
@@ -255,7 +246,89 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
         )});
 
 
-        
+        //Reports
+
+        //view total applications
+
+    router.get('/totalApplications',(req,res)=>{
+        datb.query('SELECT count(restuarant_id) AS number from restuarant_admin ',(error,results,fields)=>{
+          if(error)throw error
+          else{
+            return res.send({results})
+          }
+        })
+      })
+        //view Accepted Application
+
+        router.get('/AcceptedApplications',(req,res)=>{
+            datb.query('SELECT count(restuarant_id) as number from restuarant_admin where rest_status = 1',(error,results,fields)=>{
+              if(error)throw error
+              else{
+                return res.send({results})
+              }
+            })
+          })
+
+
+      //view Declined Application
+
+      router.get('/DeclinedApplications',(req,res)=>{
+        datb.query('SELECT count(restuarant_id) as number from restuarant_admin where rest_status = 0',(error,results,fields)=>{
+          if(error)throw error
+          else{
+            return res.send({results})
+          }
+        })
+      })
+
+ 
+      //view number of customers
+
+    router.get('/totalCustomers',(req,res)=>{
+        datb.query('SELECT count(customer_ID) AS number from customer ',(error,results,fields)=>{
+          if(error)throw error
+          else{
+            return res.send({results})
+          }
+        })
+      })
+
+// view active users
+
+router.get('/ActiveCustomers',(req,res)=>{
+        datb.query('SELECT count(customer_ID) AS number from customer where cust_status = 1',(error,results,fields)=>{
+          if(error)throw error
+          else{
+            return res.send({results})
+          }
+        })
+      })
+// view inactive or disabled customers
+
+      router.get('/inactiveCustomers',(req,res)=>{
+        datb.query('SELECT count(customer_ID) AS number from customer where cust_status = 0',(error,results,fields)=>{
+          if(error)throw error
+          else{
+            return res.send({results})
+          }
+        })
+      });
+ 
+ //view orders for specific restaurant
+
+
+
+ // need to link orders with a specific restaurant
+ //{do not test yet not working}
+router.get('/resOrders/:restuarant_id', (req, res) => {
+
+    let restuarant_id ={restuarant_id:req.body.restuarant_id}
+ 
+   datb.query('SELECT count(restuarant_id) AS orders from orders where restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
 
 
 
