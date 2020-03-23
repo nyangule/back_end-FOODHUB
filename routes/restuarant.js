@@ -69,13 +69,20 @@ router.post('/createMenu', (req, res) => {
 
   }
   var sql = "INSERT INTO menu SET ?";
-           datb.query(sql, [items], function (err, results) {
-               if (!err) {
-                   res.send({ message: 'inserted' })
 
-               } else {
-                   res.send({ message: 'there are some error with query' })
-=======
+    datb.query(sql, [items], function (err, results) {
+      if (!err) 
+      {
+          res.send({ message: 'inserted' })
+
+      } else 
+      {
+        res.send({ message: 'there are some error with query' })
+      }
+                    
+    })
+});
+// =======
 // new products
 // router.post ('/createMenu',(req,res)=>{
 
@@ -281,6 +288,4 @@ let item_id = (req.body.item_id)
   });
 
 
-module.exports = router ;
-
-
+module.exports = router;
