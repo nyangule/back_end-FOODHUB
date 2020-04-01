@@ -34,6 +34,28 @@
     })
 })
 
+// add orders 
+router.post('/addOrder',function(req,res){
+    let order ={
+        order_id:req.body.order_id,
+        cutomer_id:req.body.cutomer_id,
+        quantity:req.body.quantity,
+        totalAmount:req.body.totalAmount,
+        order_status:req.body.order_status
+    }
+    let order_id = req.body.order_id
+    datb.query('SELECT * from order where order_id = ?',[order_id],function(error,results){
+        if(error)throw error;
+        else{
+            datb.query('INSERT INTO orders SET ? ',[order],function(error,results){
+                if(error)throw error
+                else{
+                    res.send({results});
+                }
+            })
+        }
+    })
+});
 
 //update the cart
  router.put('/addtocart', function (req, res) {
