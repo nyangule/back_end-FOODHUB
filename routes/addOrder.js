@@ -34,6 +34,7 @@
     })
 })
 
+
 //update the cart
  router.put('/addtocart', function (req, res) {
  
