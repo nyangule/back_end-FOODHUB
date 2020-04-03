@@ -7,6 +7,7 @@ const datb = require('../database/database');
 // vendor / customer/ and himself (super admin) CRUD
 // products/ menu/ categories orders(vendor/restaurant)
 
+
 // view all admins
 
 router.get('/admin', (req,res)=>{
@@ -23,6 +24,9 @@ router.get('/admin', (req,res)=>{
 
     });
 });
+
+
+
 
 // view all customers
 router.get('/allCustomers', (req,res)=>{
@@ -70,6 +74,7 @@ router.get('/allrestuarant', (req,res)=>{
     });
 });
 
+// view specific restaurant
 router.get('/aRestaurant/:restuarant_id', (req, res) => {
 
     let restuarant_id ={restuarant_id:req.body.restuarant_id}

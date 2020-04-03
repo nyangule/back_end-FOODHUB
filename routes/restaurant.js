@@ -95,6 +95,18 @@ router.post('/createMenu', (req, res) => {
                }
            })
           });
+          
+          
+  // view a specific restaurant        
+          router.get('/aRestaurant',(req, res) => {
+
+            let restuarant_id ={restuarant_id:req.body.restuarant_id}
+         
+           datb.query('SELECT * FROM restuarant_admin WHERE  restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+               if(error) throw error;
+               res.send({results});
+           });
+        });
 
 // new products
 // router.post ('/createMenu',(req,res)=>{
@@ -175,11 +187,11 @@ router.put('/restu_update', (req,res)=>{
     email_address:req.body.email_address      
   }
   let restuarant_id = (req.body.restuarant_id)  
-  datb.query('UPDATE categories SET ? WHERE restuarant_id = "'+restuarant_id+'"',[restuarant],function (error, results, fields)
+  datb.query('UPDATE restuarant_admin SET ? WHERE restuarant_id = "'+restuarant_id+'"',[restuarant],function (error, results, fields)
   {
       if (error) throw error 
       else{
-        datb.query('select * from categories where restuarant_id = "'+restuarant_id+'"',[restuarant],function (error, results, fields){
+        datb.query('select * from  restuarant_admin where restuarant_id = "'+restuarant_id+'"',[restuarant],function (error, results, fields){
             return res.send({results})
         })
     
@@ -256,6 +268,44 @@ let item_id = (req.body.item_id)
   })
 })
 
+//  accept orders
+
+router.put('/AcceptedOrders',(req ,res)=>{
+
+  let order_id = req.body.order_id
+  datb.query('UPDATE orders  SET order_status = 1 where order_id =  "'+order_id+'"',(err,results,fields)=>
+  {
+ if(err) throw err
+
+else 
+{
+datb.query('select * from orders where order_status = 1 ',function (error, results, fields){
+    return res.send({results})
+
+})
+}
+}  
+
+)});
+// decline orders
+
+router.put('/DeclineOrders',(req ,res)=>{
+
+  let order_id = req.body.order_id
+  datb.query('UPDATE orders  SET order_status = 0 where order_id =  "'+order_id+'"',(err,results,fields)=>
+ {
+   if(err) throw err
+else 
+  {
+   datb.query('select * from orders where order_status = 0',function (error, results, fields){
+         return res.send({results})
+
+})
+}
+}  
+ )});
+
+
     // Reports
 
     // view total number of orders
@@ -288,7 +338,7 @@ let item_id = (req.body.item_id)
       })
     })
 
-    // view orders from a specific customer
+    // view number of orders from a specific customer
     router.get('/cusOrders/:customer_ID', (req, res) => {
 
       let customer_ID ={customer_ID:req.body.customer_ID}
