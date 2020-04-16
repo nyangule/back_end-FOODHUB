@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2020 at 03:39 PM
+-- Generation Time: Apr 16, 2020 at 12:13 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.3
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,7 +41,14 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`order_id`, `name`, `price`, `qty`) VALUES
-(1, 'Chicken & Mushroom', 149, 50);
+(1, 'kota', 35, 2),
+(2, 'russian roll', 12, 1),
+(3, 'pap and marapo', 12, 1),
+(4, 'chicken and pap', 25, 2),
+(5, 'steak and pap', 35, 3),
+(6, 'ntloko and pap', 35, 1),
+(7, 'mogodu and samp', 30, 1),
+(8, 'chicken salad', 15, 1);
 
 -- --------------------------------------------------------
 
@@ -62,8 +69,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `Breakfast`, `lunch`, `dinner`, `dessert`) VALUES
-(98, 'eggs and bacon', 'pap and vlies', 'greek salad ', 'cake'),
-(987, 'eggs and bacon', 'pap and vlies', 'greek salad ', 'cake');
+(98, 'eggs and bacon', 'pap and vlies', 'greek salad ', 'cake');
 
 -- --------------------------------------------------------
 
@@ -88,12 +94,11 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_ID`, `name`, `surname`, `address`, `email_address`, `cell_no`, `password`, `cust_status`, `images`) VALUES
-(0, '', '', 'sosha south monate', 'mgl@gmail.com', '', '458', 1, ''),
 (963852741, 'athandwa', 'zeni', '1490 Soshanguve', 'tutu2@yahoo.com', '072360360', 'idont9876', 1, ''),
-(963852742, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', 1, ''),
-(963852743, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', 1, ''),
 (963852744, 'kabelo', 'malete', '124 maponto 7th Avennue', 'kabelo@gmail.com', '0213545874', '1212', 1, ''),
-(963852745, 'rme', 'suame', 'address', 'emailess', '8526125', '$2a$10$YtzvSXPzK9j5GOp/M0fCF.0Hn.Ay7xBzialo12Jxl8AGhy1KQk3NC', 1, '');
+(963852746, 'Amanda', 'Manzi', '123 Soshangve BLOCK L', 'amandamanzi@gmail.com', '0781723456', '$2a$10$X3rDSMpc67xL.nxV9Pj3jeRdTJytjjbudMix7sJnZ8vcbPxwEIyWS', 1, ''),
+(963852747, 'Lwazi', 'Nxontsa', '124 Soshangve BLOCK M', 'lwazinxontsa@gmail.com', '0782723456', '$2a$10$LVpvYsTJ0.QWWfdTDrt31.Mc.Vj54Ar1a7tN.kFfts5FBSvWzLVdi', 1, ''),
+(963852748, 'Ashley', 'Abrahams', '125 Soshangve BLOCK KK', 'ashleyabrahams@gmail.com', '0762723456', '$2a$10$7DQU4Oap8XIuEcU6h6I2GOv3oVkRu5igFpa2zjLw7ohIUO2i2fQva', 1, '');
 
 -- --------------------------------------------------------
 
@@ -103,7 +108,6 @@ INSERT INTO `customer` (`customer_ID`, `name`, `surname`, `address`, `email_addr
 
 CREATE TABLE `menu` (
   `item_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
   `item_name` varchar(255) NOT NULL,
   `item_price` int(11) NOT NULL,
   `item_description` varchar(255) NOT NULL
@@ -113,9 +117,15 @@ CREATE TABLE `menu` (
 -- Dumping data for table `menu`
 --
 
-INSERT INTO `menu` (`item_id`, `product_id`, `item_name`, `item_price`, `item_description`) VALUES
-(1, 0, 'kota', 22, 'Chips,and atcher'),
-(2, 0, 'chicken', 25, 'chicken wings');
+INSERT INTO `menu` (`item_id`, `item_name`, `item_price`, `item_description`) VALUES
+(1, 'BBQ Beef', 53, 'beef'),
+(2, 'Beef&Wors', 45, 'Beef wors'),
+(3, 'wors', 60, 'beef wors'),
+(4, 'Full Chicken', 48, 'chicken'),
+(5, 'Chips', 23, 'potato fried chips'),
+(6, 'Kota 1', 33, 'Russians,Cheese,Eggs'),
+(7, 'kota 2', 19, 'Vienna,polony,Garlic'),
+(8, 'kota3', 21, 'Russian,Polony,Garlic');
 
 -- --------------------------------------------------------
 
@@ -125,9 +135,11 @@ INSERT INTO `menu` (`item_id`, `product_id`, `item_name`, `item_price`, `item_de
 
 CREATE TABLE `orders` (
   `order_id` int(255) NOT NULL,
-  `fk_Customer_ID` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `totalAmount` double NOT NULL,
+  `customer_ID` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price` double NOT NULL,
+  `totalAmount` double GENERATED ALWAYS AS (`price` * `qty`) VIRTUAL,
   `order_Status` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -135,8 +147,15 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `fk_Customer_ID`, `quantity`, `totalAmount`, `order_Status`) VALUES
-(1, 0, 20, 650, 0);
+INSERT INTO `orders` (`order_id`, `customer_ID`, `name`, `qty`, `price`, `order_Status`) VALUES
+(1, 1, 'kota', 2, 35, 1),
+(2, 2, 'russian roll', 1, 12, 1),
+(3, 3, 'pap and marapo', 1, 12, 0),
+(4, 4, 'chicken and pap', 2, 25, 1),
+(5, 5, 'steak and pap', 3, 35, 1),
+(6, 6, 'ntloko and pap', 1, 35, 1),
+(7, 7, 'mogodu and samp', 1, 30, 1),
+(8, 8, 'chicken salad', 1, 15, 0);
 
 -- --------------------------------------------------------
 
@@ -150,19 +169,6 @@ CREATE TABLE `payment` (
   `payment_type` varchar(255) NOT NULL,
   `amount` double NOT NULL,
   `payment_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
-  `product_name` varchar(150) NOT NULL,
-  `quantity` int(100) NOT NULL,
-  `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -249,12 +255,6 @@ ALTER TABLE `payment`
   ADD PRIMARY KEY (`payID`);
 
 --
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
-
---
 -- Indexes for table `restuarant_admin`
 --
 ALTER TABLE `restuarant_admin`
@@ -274,37 +274,31 @@ ALTER TABLE `system_admin`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852746;
+  MODIFY `customer_ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963852749;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
   MODIFY `payID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `restuarant_admin`
