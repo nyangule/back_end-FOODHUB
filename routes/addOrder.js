@@ -4,6 +4,31 @@
  const datb = require('../database/database');
  
  
+ // view carts for particular order 
+ 
+router.get('/viewCart/:order_id', (req, res) => {
+
+    let order_id ={order_id:req.body.order_id}
+ 
+   datb.query('SELECT * FROM carts WHERE order_id = ?',[order_id], (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
+
+
+// view all carts
+router.get('/aViewCart', (req, res) => {
+
+  
+   datb.query('SELECT * FROM carts ', (error, results,fields) => {
+       if(error) throw error;
+       res.send({results});
+   });
+});
+
+
+
 
  router.post('/add', function (req, res) {
     let prod = {
