@@ -251,6 +251,19 @@ let item_id = (req.body.item_id)
   // delete menu/ deactivating menu
 
 
+  
+           // deleting MENU permanently
+           router.delete('/deleteMenu/:id',function(req, res){
+   
+            datb.query('DELETE FROM menu WHERE item_id = ?',[req.params.id], (err,results,fields)=>{
+                 
+              if(!err){
+                res.send('Deleted successfully.');
+            }else{
+                console.log(err)
+            }
+            }); 
+        });
 
  router.put('/deactivateMenu',(req ,res)=>{
 
