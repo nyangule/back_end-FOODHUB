@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 var bcrypt = require('bcrypt-nodejs');
+const nodemailer = require('nodemailer');
 
 router.post ('/cust_register',(req,res)=>{
 
@@ -39,6 +40,9 @@ router.post ('/restu_register',(req,res)=>{
     password:bcrypt.hashSync(req.body.password, null, null),
     email_address:req.body.email_address
   }
+  if(!restaurant){
+    res.send({'message': 'false'})
+  }
 
   datb.query('SELECT * FROM restuarant_admin where email_address = ?', restaurant.email_address, (error, results)=>{
  if(results[0]){
@@ -51,9 +55,33 @@ router.post ('/restu_register',(req,res)=>{
       res.send({'message':'User successfully Registered!'});
     }
   })
-}
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'kasifoodhub@gmail.com',
+      pass: '2020#1food'
+    }
+  });
+  
+  var mailOptions = {
+    from: 'kasifoodhub@gmail.com',
+    to: restaurant.email_address,
+    subject: 'Ekasi Foodhub',
+    text: 'restaurant succesfully registered!'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      
+    }
+  }); 
+  }
 }) 
 });
+ 
 
 
 module.exports = router;
