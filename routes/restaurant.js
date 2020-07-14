@@ -10,7 +10,7 @@ router.post ('/application',(req,res)=>{
           restuarant_id:req.body.restuarant_id,
           restuarant_name:req.body.restuarant_name,
           address:req.body.address,
-          password:req.body.password,
+         // dont need password while applying as user logged in already password:req.body.password,
           email_address:req.body.email_address
         }
         if(!rest)
@@ -63,7 +63,7 @@ router.post ('/application',(req,res)=>{
 router.get('/viewMenu', (req,res)=>{
 
 
-  datb.query('SELECT * FROM  menu ',function(error,results,fields){
+  datb.query('SELECT * FROM  menu  ',function(error,results,fields){
 
       if(error)
       {
@@ -76,33 +76,27 @@ router.get('/viewMenu', (req,res)=>{
   });
 });
 
-// create new Menu
-router.post('/createMenu', (req, res) => {
-  let items = {
-      items_name:req.body.items_name,
-      items_price:req.body.items_price,
-      items_description:req.body.items_description
+// view each specific restaurant menu 
+router.get('/specMenu',(req, res)=> {
+
+  let restuarant ={restuarant_id:req.body.restuarant_id}
+
+  datb.query('SELECT * from menu where restuarant_id = ?',restuarant.restuarant_id,(error,results,fields)=>{
+    if(error) throw error;
+    else{
+      return res.send({'data':results})
+    }
+  })
+});
 
 
-  }
-  var sql = "INSERT INTO menu SET ?";
-           datb.query(sql, [items], function (err, results) {
-               if (!err) {
-                   res.send({ message: 'inserted' })
 
-               } else {
-                   res.send({ message: 'there are some error with query' })
-               }
-           })
-          });
-          
-          
   // view a specific restaurant        
           router.get('/aRestaurant',(req, res) => {
 
-            let restuarant_id ={restuarant_id:req.body.restuarant_id}
+            let restuarant ={restuarant_id:req.body.restuarant_id}
          
-           datb.query('SELECT * FROM restuarant_admin WHERE  restuarant_id = ?',[restuarant_id], (error, results,fields) => {
+           datb.query('SELECT * FROM restuarant_admin WHERE  restuarant_id = ?',restuarant.restuarant_id, (error, results,fields) => {
                if(error) throw error;
                res.send({results});
            });
@@ -137,7 +131,8 @@ router.post('/createMenu', function (req, res) {
   let items ={
       item_name:req.body.item_name,
       item_price:req.body.item_price,
-      item_description:req.body.item_description
+      item_description:req.body.item_description,
+      restuarant_id:req.body.restuarant_id
 
   }
            datb.query("INSERT INTO menu SET ?", [items], (err, results)=> {
@@ -163,7 +158,7 @@ router.post ('/new_category',(req,res)=>{
     dessert:req.body.dessert 
   }
 
-  datb.query('SELECT * FROM category_id where category_id = ?', category.email_address, (error, results)=>{
+  datb.query('SELECT * FROM category_id where category_id = ?', category.category_id, (error, results)=>{
  if(results[0]){
   res.send({'message':'category already exits'});
 }else{
@@ -228,6 +223,7 @@ router.put('/categories_update', (req,res)=>{
 
 router.put('/updateMenu', (req,res)=>{
   let items ={ 
+      
       item_name: req.body.item_name,
       item_price: req.body.item_price,
       item_description: req.body.item_description
@@ -281,6 +277,47 @@ let item_id = (req.body.item_id)
   })
 })
 
+// Change  menu status to available 
+
+router.put('/changeStAvail',(req ,res)=>{
+
+  let item_id = req.body.item_id
+  datb.query('UPDATE menu  SET item_status = 1 where item_id =  "'+item_id+'"',(err,results,fields)=>
+  {
+ if(err) throw err
+
+else 
+{
+datb.query('select * from menu where item_status = 1 ',function (error, results, fields){
+    return res.send({results})
+
+       })
+
+     }
+     }  
+   )
+ });
+ 
+ //change item status to unavailble
+ router.put('/changeStNotavail',(req ,res)=>{
+
+  let item_id = req.body.item_id
+  datb.query('UPDATE menu  SET item_status = 0 where item_id =  "'+item_id+'"',(error,results,fields)=>
+  {
+ if(error) throw error
+
+else 
+{
+datb.query('select * from menu where item_status = 0 ',function (error, results, fields){
+    return res.send({results})
+
+       })
+     }
+     }  
+   )
+ });
+
+
 //  accept orders
 
 router.put('/AcceptedOrders',(req ,res)=>{
@@ -295,11 +332,11 @@ else
 datb.query('select * from orders where order_status = 1 ',function (error, results, fields){
     return res.send({results})
 
-})
-}
-}  
-
-)});
+       })
+     }
+     }  
+   )
+ });
 // decline orders
 
 router.put('/DeclineOrders',(req ,res)=>{

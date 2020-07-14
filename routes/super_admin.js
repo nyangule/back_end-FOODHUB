@@ -156,6 +156,7 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
             }); 
         });
 
+        // do not use this delete
         router.delete('/restuarant/:id',function(req, res){
    
             datb.query('DELETE FROM restuarant_admin WHERE restuarant_id = ?',[req.params.id], (err,results,fields)=>{
@@ -168,7 +169,7 @@ router.get('/aRestaurant/:restuarant_id', (req, res) => {
             })
         
 
-        // deleting customer profile
+        // deleting customer profile // use this one
        router.put('/deactivateRest',(req ,res)=>{
 
      

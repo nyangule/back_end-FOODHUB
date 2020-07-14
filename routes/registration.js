@@ -22,6 +22,7 @@ router.post ('/cust_register',(req,res)=>{
     }else{
       datb.query('INSERT INTO customer set ?', [cust], (error, results)=>{
         if(error){
+
           res.send({'message':'Something went wrong!'});
         }else{
             res.send({'message':'User successfully Registered!'});
