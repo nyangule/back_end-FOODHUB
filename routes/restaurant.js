@@ -76,6 +76,62 @@ router.get('/viewMenu', (req,res)=>{
   });
 });
 
+
+// view of menu from the 3 new tables 
+
+router.get('/viewrest1', (req,res)=>{
+
+
+  datb.query('SELECT * FROM  restaurantmenu1  ',function(error,results,fields){
+
+      if(error)
+      {
+          res.send({"failed":"error occurred"})
+      }
+      else{
+                 return res.send({data:results})
+          }
+
+  });
+});
+
+router.get('/viewrest2', (req,res)=>{
+
+
+  datb.query('SELECT * FROM  restaurantmenu_2  ',function(error,results,fields){
+
+      if(error)
+      {
+          res.send({"failed":"error occurred"})
+      }
+      else{
+                 return res.send({data:results})
+          }
+
+  });
+});
+
+router.get('/viewrest3', (req,res)=>{
+
+
+  datb.query('SELECT * FROM  restaurantmenu_3  ',function(error,results,fields){
+
+      if(error)
+      {
+          res.send({"failed":"error occurred"})
+      }
+      else{
+                 return res.send({data:results})
+          }
+
+  });
+});
+
+
+
+
+
+
 // view each specific restaurant menu 
 router.get('/specMenu',(req, res)=> {
 
