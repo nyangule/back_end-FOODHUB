@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 11:52 PM
+-- Generation Time: Jul 22, 2020 at 07:22 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -181,6 +181,7 @@ CREATE TABLE `payment` (
 
 CREATE TABLE `restaurantmenu1` (
   `item_id` int(200) NOT NULL,
+  `num_items` int(11) NOT NULL DEFAULT 1,
   `item_name` varchar(200) NOT NULL,
   `item_description` varchar(200) NOT NULL,
   `price` double NOT NULL
@@ -190,12 +191,12 @@ CREATE TABLE `restaurantmenu1` (
 -- Dumping data for table `restaurantmenu1`
 --
 
-INSERT INTO `restaurantmenu1` (`item_id`, `item_name`, `item_description`, `price`) VALUES
-(1, 'chips', 'fried potato chips', 22),
-(2, 'kota ', 'russian, cheese, eggs', 32),
-(3, 'kota', 'Vianna,Polony,Garlic', 18.99),
-(4, 'kota', 'Russian,Polony,Garlic', 20.99),
-(5, 'Kota', 'beef ', 18.99);
+INSERT INTO `restaurantmenu1` (`item_id`, `num_items`, `item_name`, `item_description`, `price`) VALUES
+(1, 1, 'chips', 'fried potato chips', 22),
+(2, 1, 'kota ', 'russian, cheese, eggs', 32),
+(3, 1, 'kota', 'Vianna,Polony,Garlic', 18.99),
+(4, 1, 'kota', 'Russian,Polony,Garlic', 20.99),
+(5, 1, 'Kota', 'beef ', 18.99);
 
 -- --------------------------------------------------------
 
@@ -205,6 +206,7 @@ INSERT INTO `restaurantmenu1` (`item_id`, `item_name`, `item_description`, `pric
 
 CREATE TABLE `restaurantmenu_2` (
   `item_id` int(200) NOT NULL,
+  `num_items` int(11) NOT NULL DEFAULT 1,
   `item_name` varchar(200) NOT NULL,
   `item_description` varchar(200) NOT NULL,
   `price` double NOT NULL
@@ -214,13 +216,13 @@ CREATE TABLE `restaurantmenu_2` (
 -- Dumping data for table `restaurantmenu_2`
 --
 
-INSERT INTO `restaurantmenu_2` (`item_id`, `item_name`, `item_description`, `price`) VALUES
-(1, 'skopo', 'cow head', 29.99),
-(2, 'Mogodu&Pap', 'insides with white porridge', 43.99),
-(3, 'Marapo', 'bones with little meat', 19.99),
-(4, 'Chicken and Pap', 'grilled chicken with white porridge', 28.99),
-(5, '2 wings', 'chicken wings', 15.99),
-(6, 'Motwana&Pap', 'chicken feet with white fluffy porridge', 19.99);
+INSERT INTO `restaurantmenu_2` (`item_id`, `num_items`, `item_name`, `item_description`, `price`) VALUES
+(1, 1, 'skopo', 'cow head', 29.99),
+(2, 1, 'Mogodu&Pap', 'insides with white porridge', 43.99),
+(3, 1, 'Marapo', 'bones with little meat', 19.99),
+(4, 1, 'Chicken and Pap', 'grilled chicken with white porridge', 28.99),
+(5, 1, '2 wings', 'chicken wings', 15.99),
+(6, 1, 'Motwana&Pap', 'chicken feet with white fluffy porridge', 19.99);
 
 -- --------------------------------------------------------
 
@@ -230,6 +232,7 @@ INSERT INTO `restaurantmenu_2` (`item_id`, `item_name`, `item_description`, `pri
 
 CREATE TABLE `restaurantmenu_3` (
   `item_id` int(11) NOT NULL,
+  `num_items` int(11) NOT NULL DEFAULT 1,
   `item_name` varchar(200) NOT NULL,
   `item_description` varchar(200) NOT NULL,
   `price` int(11) NOT NULL
@@ -239,11 +242,11 @@ CREATE TABLE `restaurantmenu_3` (
 -- Dumping data for table `restaurantmenu_3`
 --
 
-INSERT INTO `restaurantmenu_3` (`item_id`, `item_name`, `item_description`, `price`) VALUES
-(1, 'BBQ Beef', 'BEEF meat', 52),
-(2, 'beef and wors', 'our combo beef special', 45),
-(3, 'wors', 'pure beef wors no pork', 60),
-(4, '1/4 ribs', 'pure pork ribs with beef sauce', 66);
+INSERT INTO `restaurantmenu_3` (`item_id`, `num_items`, `item_name`, `item_description`, `price`) VALUES
+(1, 1, 'BBQ Beef', 'BEEF meat', 52),
+(2, 1, 'beef and wors', 'our combo beef special', 45),
+(3, 1, 'wors', 'pure beef wors no pork', 60),
+(4, 1, '1/4 ribs', 'pure pork ribs with beef sauce', 66);
 
 -- --------------------------------------------------------
 
