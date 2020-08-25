@@ -9,7 +9,7 @@ const { check } = require('express-validator');
 const session = require('express-session');
 
 
-
+app.use(bodyParser.urlencoded({extended:false})) 
 app.use(bodyParser.json());
 app.use(cors())
 
@@ -42,3 +42,4 @@ const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 }); 
+
