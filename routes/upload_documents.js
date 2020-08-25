@@ -39,6 +39,7 @@ let upload = multer({storage: storage});
       }
 });
 
+// upload multlple file
 router.post('/uploadMultiple_file',upload.any('file'),function(req, res) {
    
   var message = "Error! in image upload."
