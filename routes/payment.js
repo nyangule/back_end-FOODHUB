@@ -9,14 +9,14 @@ var Publishable_Key = 'pk_test_51HCjoXCp71m9KMQuzhegHPbWREpe6PbgUy0IMmXrjsCZGH5D
 var Secret_Key = 'sk_test_51HCjoXCp71m9KMQuL7MNkgfptWffLe9KYu6D5TXeXCZj7Tf8tVVbJ4deh0qstjNFYdJGifk80u45sPaJc989mDZl00HMILoO51';
 
 const stripe = require('stripe')(Secret_Key);
-
+ 
 app.get('/', function(req, res){ 
     res.render('Home', { 
         key: Publishable_Key 
     }) 
 }) 
 app.post('/payment', function(req, res){ 
-    //let amount = req.body.amount
+    var amount = req.body.totalAmt;
   
     // Moreover you can take more details from user 
     // like Address, Name, etc from form 
@@ -35,7 +35,7 @@ app.post('/payment', function(req, res){
     .then((customer) => { 
   
         return stripe.charges.create({ 
-            amount: 2500,     // Charing Rs 25 
+            amount,     // Charing Rs 25 
             description: 'online food ordering', 
             currency: 'ZAR', 
             customer: customer.id 
