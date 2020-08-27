@@ -11,7 +11,6 @@ router.post ('/application',(req,res)=>{
           restuarant_id:req.body.restuarant_id,
           restuarant_name:req.body.restuarant_name,
           address:req.body.address,
-         // dont need password while applying as user logged in already password:req.body.password,
           email_address:req.body.email_address
        }
          if(!rest)
