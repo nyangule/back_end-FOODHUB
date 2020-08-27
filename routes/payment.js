@@ -10,14 +10,8 @@ var Secret_Key = 'sk_test_51HCjoXCp71m9KMQuL7MNkgfptWffLe9KYu6D5TXeXCZj7Tf8tVVbJ
 
 const stripe = require('stripe')(Secret_Key);
  
-app.get('/', function(req, res){ 
-    res.render('Home', { 
-        key: Publishable_Key 
-    }) 
-}) 
-app.post('/payment', function(req, res){ 
+router.post('/payment', function(req, res){ 
     var amount = req.body.totalAmt;
-  
     // Moreover you can take more details from user 
     // like Address, Name, etc from form 
     stripe.customers.create({ 
@@ -35,7 +29,7 @@ app.post('/payment', function(req, res){
     .then((customer) => { 
   
         return stripe.charges.create({ 
-            amount,     // Charing Rs 25 
+            amount,     // Charing 
             description: 'online food ordering', 
             currency: 'ZAR', 
             customer: customer.id 
@@ -49,4 +43,4 @@ app.post('/payment', function(req, res){
     }); 
 }) 
   
-//module.exports = router ;
+module.exports = router ;

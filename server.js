@@ -4,19 +4,18 @@ const app = express();
 var cors = require('cors')
 const mysqlConn= require('./database/database');
 const bodyParser = require('body-parser');
+const path = require('path') 
 const multer = require('multer');
 const { check } = require('express-validator');
 const session = require('express-session');
+const router = require('./routes/login');
 
 
 app.use(bodyParser.urlencoded({extended:false})) 
 app.use(bodyParser.json());
 app.use(cors())
 
-// View Engine Setup 
-app.set('views', path.join(__dirname, 'views')) 
-app.set('view engine', 'ejs') 
-  
+
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -38,7 +37,7 @@ app.use(function (req, res, next) {
  app.use('/', require('./routes/ViewUpdateHistory'));
  app.use('/', require('./routes/reset_password'));
  app.use('/', require('./routes/forgot'));
-app.use('/', require('./routes/payment')); 
+ app.use('/', require('./routes/payment')); 
  
  
 
