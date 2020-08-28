@@ -67,31 +67,6 @@ router.get('/download',function(req,res,next){
 
 
 
-// router.post('/addDocument',upload.single('file'),(req,res)=>{
-    
-//   images = req.file.filename;
-
-//   if (images) {
-
-//       con.query("INSERT INTO restuarant(images) VALUES ('"+ images + "')", [images], function(err,results){
-//           if (err) {
-//               res.send("upload document - failed.........file not received");  
-//           }
-//           else{
-//               return res.send({results,
-//                 message: " successful!!! --file received"})
-//           }
-//           }) 
-//   } else {
-//       res.send("PLEASE UPLOAD YOUR DOCUMENT");
-//   } 
-// });
-
-
-
-
-
-
   module.exports = router;
 
   

@@ -39,22 +39,17 @@ router.post('/cust_login', function(req, res) {
                     });
                 });
             }
-        }); 
-
-    
+        });
  });
  
 
  router.post('/restu_login', function(req, res) {
-
     let email = req.body.email_address;
     var password = req.body.password;
-    
     if(!email || !password)
     {
         res.send({message:'enter all the fields'})
     }
-   
     datb.query('select * from restuarant_admin where email_address = ? AND password =?',[email,password],(error,results)=>{  
        if(error)throw error;
                 else{

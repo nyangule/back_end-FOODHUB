@@ -37,7 +37,7 @@ router.get('/aViewCart', (req, res) => {
         qty: req.body.qty
 
     }
-    //var qty = req.body.qty;
+    
     var name = req.body.name;
     var sql1 = "SELECT * FROM carts WHERE name = ?";
     datb.query(sql1, [name], function (err, results) {
@@ -95,8 +95,7 @@ router.get('/viewOrders',(req,res)=>{
     })
     
 })
-
-
+ 
 //update the cart
  router.put('/addtocart', function (req, res) {
  

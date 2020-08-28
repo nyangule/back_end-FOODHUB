@@ -42,5 +42,4 @@ router.post('/payment', function(req, res){
         res.send(error)       // If some error occurs 
     }); 
 }) 
-  
 module.exports = router ;

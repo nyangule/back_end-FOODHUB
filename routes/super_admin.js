@@ -4,10 +4,6 @@ const router = express.Router();
 const mysql = require('mysql');
 const datb = require('../database/database');
 
-// vendor / customer/ and himself (super admin) CRUD
-// products/ menu/ categories orders(vendor/restaurant)
-
-
 // view all admins
 
 router.get('/admin', (req,res)=>{

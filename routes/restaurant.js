@@ -77,57 +77,6 @@ router.get('/viewMenu', (req,res)=>{
 });
 
 
-// view of menu from the 3 new tables 
-
-router.get('/viewrest1', (req,res)=>{
-
-
-  datb.query('SELECT * FROM  restaurantmenu1  ',function(error,results,fields){
-
-      if(error)
-      {
-          res.send({"failed":"error occurred"})
-      }
-      else{
-                 return res.send({data:results})
-          }
-
-  });
-});
-
-router.get('/viewrest2', (req,res)=>{
-
-
-  datb.query('SELECT * FROM  restaurantmenu_2  ',function(error,results,fields){
-
-      if(error)
-      {
-          res.send({"failed":"error occurred"})
-      }
-      else{
-                 return res.send({data:results})
-          }
-
-  });
-});
-
-router.get('/viewrest3', (req,res)=>{
-
-
-  datb.query('SELECT * FROM  restaurantmenu_3  ',function(error,results,fields){
-
-      if(error)
-      {
-          res.send({"failed":"error occurred"})
-      }
-      else{
-                 return res.send({data:results})
-          }
-
-  });
-});
-
-
 // view each specific restaurant menu 
 router.get('/specMenu',(req, res)=> {
 
@@ -153,31 +102,6 @@ router.get('/specMenu',(req, res)=> {
                res.send({results});
            });
         });
-
-// new products
-// router.post ('/createMenu',(req,res)=>{
-
-//   let items={
-    
-//     item_name:req.body.item_name,
-//     item_price:req.body.item_price,
-//     item_description:req.body.item_description
-//   };
-//   let item_id = req.body.item_id
-//   datb.query('SELECT * FROM menu where item_id = ?', items.item_id, (error, results)=>{
-//     if(results){
-//       res.send({'message':'item already exits'});
-//     }else{
-//       datb.query('INSERT INTO menu set ?', [items], (error, results)=>{
-//         if(error){
-//           res.send({results});
-//         }else{
-//             res.send({'message':'item inserted successfully!'});
-//         }
-//       })
-//     }
-//   })  
-// });
 
 router.post('/createMenu', function (req, res) {
   let items ={
@@ -390,9 +314,7 @@ datb.query('select * from orders where order_status = 1 ',function (error, resul
    )
  });
 // decline orders
-
 router.put('/DeclineOrders',(req ,res)=>{
-
   let order_id = req.body.order_id
   datb.query('UPDATE orders  SET order_status = 0 where order_id =  "'+order_id+'"',(err,results,fields)=>
  {

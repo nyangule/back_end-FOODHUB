@@ -22,45 +22,22 @@ router.put('/cust_reset_password', function(req, res) {
         res.send({"message":"confirm password is not matched"})
 
     }
-
     else
-
     {
-
     datb.query('update customer set ? where email_address = "'+e_email+'"',[pass],(error,result)=>{
-
-        
-
         if(error){
-
             res.send({"message":"error occurred"});
-
         }
-
         else{
-
             if(e_email != req.body.email_address){
-
                 res.send({"message":"Email not registered!"});  
-
                 } 
-
         else{
-
-            
-
-              res.send({"message":"Password has been successfully changed"}); 
-
-            
-
+              res.send({"message":"Password has been successfully changed"});           
         }
-
         }
-
     });
-
     }
-
 });
 
 
@@ -74,62 +51,30 @@ router.put('/vendor_reset_password', function(req, res) {
      
 
     var e_email = req.body.email_address;
-
     var newPassword = req.body.newPassword;
-
     var confirmPassword = req.body.confirmPassword;
-
-
-
     let pass = { 
-
         password: bcrypt.hashSync(newPassword, null, null)
-
     }
-
-   
-
     if(newPassword != confirmPassword){
-
         res.send({"message":"confirm password is not matched"})
-
     }
-
     else
-
     {
-
     datb.query('update restuarant_admin set ? where email_address = "'+e_email+'"',[pass],(error,result)=>{
-
-        
-
         if(error){
-
             res.send({"message":"error occurred"});
-
         }
-
         else{
-
             if(e_email != req.body.email_address){
-
                 res.send({"message":"Email not registered!"});  
-
                 } 
-
         else{
-
-            
               res.send({"message":"Password has been successfully changed"}); 
-        
         }
-
         }
-
     });
-
     }
-
 });
 
 module.exports = router;

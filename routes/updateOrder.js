@@ -6,11 +6,8 @@ const datb = require('../database/database');
 
 
 router.put('./updateOrder', (req, res) => {
-    
     const order_ID = (body.req.orderID);
-
     datb.query('UPDATE orders SET ? WHERE order_id = "'+order_ID+'"' ,function(error, results, fields){
-
         if(error)
         {
             throw error
@@ -24,14 +21,9 @@ router.put('./updateOrder', (req, res) => {
     });
 });
 
-
 // Updating one particular order
-
-
 router.put('./updateOrder/:id', (req, res) => {
-    
     const order_ID = (body.req.orderID);
-
     datb.query('UPDATE orders SET ? WHERE order_id = "'+order_ID+'"',function(error, results, fields){
 
         if(error)
